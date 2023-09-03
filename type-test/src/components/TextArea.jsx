@@ -15,10 +15,12 @@ sentences in this generator were created by us.`.split(" ")
 
 
 const TextArea = () => {
+  const [data, setData] = useState([]);
   useEffect(() => {
     axios.get('http://127.0.0.1:5000/api/data')  // Assuming the React app is hosted on the same server as Flask
       .then((response) => {
         setData(response.data);
+        console.log("hi");
       })
       .catch((error) => {
         console.error(error);
@@ -26,23 +28,19 @@ const TextArea = () => {
   }, []);
 
 
-  const text = useRef(getText())
+  // const text = useRef(data)
 
   const [activeIndex , setIndex] = useState(0) //initial index of the word
 
   return (
     <div className='flex w-screen h-fit justify-center mt-[23vh] rows-2 grid grid-rows-2'>
         <div className='flex w-fit max-w-[30vw] h-fit  border-2 rounded-xl border-white self-center text-white p-5 font-roboto text-2xl'>
-        {text.current.map((word , index) => 
-          {
-                if(index === activeIndex)
-                {
-                  return <b className='text-black'>{word}</b>
-                }
-              
-                return <div>{word}</div>
+        {data.map((word, index) => {
+          if (index === activeIndex) {
+            return <b className='text-black'>{word}</b>;
           }
-        )}  
+          return <div>{word}</div>;
+        })}  
         </div>
 
         <div className='flex w-fit w-[30vw] h-fit border-2 rounded-xl border-white self-center text-white p-5 font-roboto text-2xl mb-auto mt-5'>
