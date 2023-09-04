@@ -3,16 +3,7 @@ import { useRef , useState} from 'react'
 import '../App.css'
 import { useEffect} from 'react'
 import axios from 'axios';
-
-const getText = () => `No, the random sentences in our generator
-are not computer generated. We considered using computer generated 
-sentences when building this tool, but found the results to be 
-disappointing. Even though it took a lot of time, all the 
-sentences in this generator were created by us.`.split(" ")
-
-  
- 
-
+import { Input } from 'postcss';
 
 const TextArea = () => {
   const [data, setData] = useState([]);
@@ -27,24 +18,43 @@ const TextArea = () => {
       });
   }, []);
 
+  //word input
 
-  // const text = useRef(data)
+   //initial index of the highlighted word is 0 
+   //whenever user presses space , index jumps to the next word
+  const [input , setInput] = useState('')
+  const [activeIndex , setIndex] = useState(0)
 
-  const [activeIndex , setIndex] = useState(0) //initial index of the word
-
+  function proc_input(value)
+  {
+    if(value.endsWith(' '))
+    {
+      setIndex(index => index + 1)
+      setInput('')
+    }
+    else
+    {
+      setInput(value)
+    }
+  }
+ 
+  
   return (
     <div className='flex w-screen h-fit justify-center mt-[23vh] rows-2 grid grid-rows-2'>
-        <div className='flex w-fit max-w-[30vw] h-fit  border-2 rounded-xl border-white self-center text-white p-5 font-roboto text-2xl'>
-        {data.map((word, index) => {
+        <div className='flex h-[40vh] max-w-[50vw] min-h-[35vh] min-w-[50vw] border-2 rounded-xl border-white self-center text-white p-5 font-roboto text-2xl'>
+        <p>{data.map((word, index) => {
           if (index === activeIndex) {
-            return <b className='text-black'>{word}</b>;
+            return <b className='text-gray-600'>{word}&nbsp;</b>;
           }
-          return <div>{word}</div>;
-        })}  
+          return <div>{word}&nbsp;</div>;
+        })}</p> 
         </div>
 
-        <div className='flex w-fit w-[30vw] h-fit border-2 rounded-xl border-white self-center text-white p-5 font-roboto text-2xl mb-auto mt-5'>
-          
+        <div className='flex w-fit w-[30vw] h-fit rounded-xl border-white self-center text-white p-5 font-roboto text-2xl mb-auto mt-5'>
+         <input type="text" 
+                value={input} 
+                onChange={(e) => proc_input(e.target.value)} 
+                className='text-white bg-transparent border-2 rounded-xl border-white self-center'/>
         </div>
 
     </div>

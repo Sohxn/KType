@@ -6,8 +6,11 @@ CORS(app)
 
 @app.route('/api/data')
 def get_data():
-    data = ["Fuck you where are you"]
+    raw = "Generating a random sentence can be a great way to start a skit or improv."
+    data = raw.split()
     return jsonify(data)
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
+
