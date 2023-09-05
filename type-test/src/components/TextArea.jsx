@@ -18,6 +18,10 @@ const TextArea = () => {
       });
   }, []);
 
+
+
+  console.log(data)
+
   //word input
 
    //initial index of the highlighted word is 0 
@@ -41,16 +45,22 @@ const TextArea = () => {
   
   return (
     <div className='flex w-screen h-fit justify-center mt-[23vh] rows-2 grid grid-rows-2'>
-        <div className='flex h-[40vh] max-w-[50vw] min-h-[35vh] min-w-[50vw] border-2 rounded-xl border-white self-center text-white p-5 font-roboto text-2xl'>
-        <p>{data.map((word, index) => {
+        <div className='flex h-fit min-h-[10vh] min-w-[40vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl overflow-hidden  '>
+        <p className='break-word overflow-hidden'>{data.map((word, index) => {
           if (index === activeIndex) {
             return <b className='text-gray-600'>{word}&nbsp;</b>;
           }
-          return <div>{word}&nbsp;</div>;
+          //line break after every 15 words 
+          return (
+            <> 
+              <span>{word}&nbsp;</span>
+              {(index + 1) % 15 === 0 && <br />} 
+            </>
+          )
         })}</p> 
         </div>
 
-        <div className='flex w-fit w-[30vw] h-fit rounded-xl border-white self-center text-white p-5 font-roboto text-2xl mb-auto mt-5'>
+        <div className='flex w-fit w-[30vw] h-fit rounded-xl border-white self-center text-white font-roboto text-2xl'>
          <input type="text" 
                 value={input} 
                 onChange={(e) => proc_input(e.target.value)} 

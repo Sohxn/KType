@@ -6,7 +6,7 @@ CORS(app)
 
 @app.route('/api/data')
 def get_data():
-    raw = "Generating a random sentence can be a great way to start a skit or improv."
+    raw = "look life through become run over what more then not such also feel which this need I what it line nation help about more into not in say each who at group many tell during for man both any thing after other than when line which go turn call little"
     data = raw.split()
     return jsonify(data)
 
