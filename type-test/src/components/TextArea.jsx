@@ -20,8 +20,6 @@ const TextArea = () => {
 
 
 
-  console.log(data)
-
   //word input
 
    //initial index of the highlighted word is 0 
@@ -45,10 +43,14 @@ const TextArea = () => {
   
   return (
     <div className='flex w-screen h-fit justify-center mt-[30vh] rows-2 grid grid-rows-2'>
-        <div className='flex h-fit min-h-[10vh] min-w-[40vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl overflow-hidden  '>
+        <div className='flex h-fit min-h-[10vh] min-w-[40vw] max-w-[45vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl'>
         <p className='break-word overflow-hidden'>{data.map((word, index) => {
           if (index === activeIndex) {
-            return <b className='text-gray-600'>{word}&nbsp;</b>;
+            return <b className='text-purple-400'>{word}&nbsp;</b>
+          }
+
+          else if (index < activeIndex){
+            return <span className='text-green-500 text-bold'>{word}&nbsp;</span>
           }
           //line break after every 15 words 
           return (
@@ -62,13 +64,13 @@ const TextArea = () => {
 
         <div className='flex justify-center'>
           <div className='flex w-fit h-fit rounded-xl border-white self-center text-white font-roboto text-2xl'>
-            <input type="text" 
+            <input autoFocus type="text" 
                     value={input} 
                     onChange={(e) => proc_input(e.target.value)} 
                     className='text-white bg-transparent border-2 rounded-xl border-white self-center focus:border-white'/>
           </div>
 
-          <button  className='border-2 rounded-xl h-[4vh] w-[6vw] ml-[10vw] self-center'><h className='font-roboto text-white'>Refresh</h></button>
+          <button  className='border-2 rounded-xl h-[4.5vh] w-[6vw] ml-[10vw] self-center'><h className='font-roboto text-purple-400'>Refresh</h></button>
         </div>
 
     </div>
