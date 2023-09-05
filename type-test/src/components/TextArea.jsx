@@ -44,7 +44,7 @@ const TextArea = () => {
  
   
   return (
-    <div className='flex w-screen h-fit justify-center mt-[23vh] rows-2 grid grid-rows-2'>
+    <div className='flex w-screen h-fit justify-center mt-[30vh] rows-2 grid grid-rows-2'>
         <div className='flex h-fit min-h-[10vh] min-w-[40vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl overflow-hidden  '>
         <p className='break-word overflow-hidden'>{data.map((word, index) => {
           if (index === activeIndex) {
@@ -54,17 +54,21 @@ const TextArea = () => {
           return (
             <> 
               <span>{word}&nbsp;</span>
-              {(index + 1) % 15 === 0 && <br />} 
+              {(index + 1) % 10 === 0 && <br />} 
             </>
           )
         })}</p> 
         </div>
 
-        <div className='flex w-fit w-[30vw] h-fit rounded-xl border-white self-center text-white font-roboto text-2xl'>
-         <input type="text" 
-                value={input} 
-                onChange={(e) => proc_input(e.target.value)} 
-                className='text-white bg-transparent border-2 rounded-xl border-white self-center'/>
+        <div className='flex justify-center'>
+          <div className='flex w-fit h-fit rounded-xl border-white self-center text-white font-roboto text-2xl'>
+            <input type="text" 
+                    value={input} 
+                    onChange={(e) => proc_input(e.target.value)} 
+                    className='text-white bg-transparent border-2 rounded-xl border-white self-center focus:border-white'/>
+          </div>
+
+          <button  className='border-2 rounded-xl h-[4vh] w-[6vw] ml-[10vw] self-center'><h className='font-roboto text-white'>Refresh</h></button>
         </div>
 
     </div>

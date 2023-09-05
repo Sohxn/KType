@@ -30,7 +30,7 @@ const Nav = () => {
           
           <div id='profile' className='w-12 h-12 self-center relative' >
             <button id='dropdownHoverButton' onClick={prfopen}><img className='h-fill w-fill' src={prof}/></button>
-            <div className={`prfdd absolute mt-[3vh] bg-opacity-20 border-2 rounded-xl max-w-[8vw] max-h-[12vh] p-4 ${ddOpen ? '' : 'hidden'}`}>
+            <div className={`prfdd absolute mt-[3vh] bg-opacity-20 border-2 rounded-xl w-fit h-fit p-4 ${ddOpen ? '' : 'hidden'}`}>
               <a href="#" className="block px-4 py-2 text-white font-roboto hover:border-2 hover:rounded-xl">Dashboard</a>
               <a href="#" className="block px-4 py-2 text-white font-roboto hover:border-2 hover:rounded-xl">Log Out</a>
             </div>
