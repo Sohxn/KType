@@ -1,13 +1,16 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+from essential_generators import DocumentGenerator
+# pip install essential-generators (comand to install)
 
+sentense  = DocumentGenerator()
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/api/data')
 def get_data():
-    raw = "look life through become run over what more then not such also feel which this need I what it line nation help about more into not in say each who at group many tell during for man both any thing after other than when line which go turn call little"
-    data = raw.split()
+    raw =  sentense.paragraph()
+    data = raw[0:200].split()
     return jsonify(data)
 
 if __name__ == '__main__':

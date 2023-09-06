@@ -7,16 +7,26 @@ import { Input } from 'postcss';
 
 const TextArea = () => {
   const [data, setData] = useState([]);
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8080/api/data')  // Assuming the React app is hosted on the same server as Flask
+  const fetchData = () => {
+    axios.get('http://127.0.0.1:8080/api/data')
       .then((response) => {
         setData(response.data);
-        console.log("hi");
+        console.log("Data refreshed");
       })
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  // Fetch data when the component mounts
+  useEffect(() => {
+    fetchData();
   }, []);
+
+  // You can call this function to refresh the data
+  const refresh = () => {
+    fetchData();
+  };
 
 
 
@@ -75,7 +85,7 @@ const TextArea = () => {
                     className='text-white bg-transparent border-2 rounded-xl border-white self-center focus:border-white'/>
           </div>
 
-          <button id='refreshText' className='border-2 rounded-xl h-[4.5vh] w-[6vw] ml-[10vw] self-center w-fit p-2'><h className='font-roboto text-purple-400'>Refresh</h></button>
+          <button id='refreshText' onClick={refresh} className='border-2 rounded-xl h-[4.5vh] w-[6vw] ml-[10vw] self-center w-fit p-2'><h className='font-roboto text-purple-400'>Refresh</h></button>
         </div>
 
     </div>
