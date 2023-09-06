@@ -7,4 +7,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
+  // {/* {(index+1) % 10 === 0 && <br />}  */}
 )
