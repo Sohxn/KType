@@ -3,7 +3,7 @@ import { useRef , useState} from 'react'
 import '../App.css'
 import { useEffect} from 'react'
 import axios from 'axios';
-import { Input } from 'postcss';
+
 
 const TextArea = () => {
   const [data, setData] = useState([]);
@@ -41,6 +41,14 @@ const TextArea = () => {
   {
     if(value.endsWith(' '))
     {
+      if(value.trim() === data[activeIndex])
+      {
+        console.log("equal")
+      }
+      else
+      {
+        console.log("wrong")
+      }
       setIndex(index => index + 1)
       setInput('')
     }
@@ -61,17 +69,12 @@ const TextArea = () => {
           if (index === activeIndex) {
             return <b className='text-purple-400'>{word}&nbsp;</b>
           }
-
-          else if (index < activeIndex){            
-              return <span className='text-green-300 text-bold'>{word}&nbsp;</span>
-          }
-
-          
-          
+          else if (index < activeIndex){  
+                 return <span className='text-green-300 text-bold'>{word}&nbsp;</span>
+              }
           return (
             <> 
               <span>{word}&nbsp;</span>
-             
             </>
           )
         })}</p> 
