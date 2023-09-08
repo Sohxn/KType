@@ -5,6 +5,8 @@ import { useEffect} from 'react'
 import axios from 'axios';
 
 
+
+
 const TextArea = () => {
   const [data, setData] = useState([]);
   const fetchData = () => {
@@ -63,21 +65,26 @@ const TextArea = () => {
 
 
   return (
-    <div className='flex w-screen h-fit justify-center mt-[30vh] rows-2 grid grid-rows-2'>
-        <div className='flex h-fit min-h-[10vh] min-w-[40vw] max-w-[45vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl'>
-        <p className='break-all'>{data.map((word, index) => {
-          if (index === activeIndex) {
-            return <b className='text-purple-400'>{word}&nbsp;</b>
-          }
-          else if (index < activeIndex){  
-                 return <span className='text-green-300 text-bold'>{word}&nbsp;</span>
+    <div className='flex w-screen h-fit mt-[30vh] grid grid-rows-4'>
+
+        <div className='flex h-[5vh] font-roboto text-white mx-auto '>UTILITY AREA</div>
+        
+        <div className='flex h-fit min-h-[10vh] min-w-[40vw] mx-auto max-w-[45vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl'>
+        
+            <p className='break-all'>{data.map((word, index) => {
+              if (index === activeIndex) {
+                return <b className='text-purple-400'>{word}&nbsp;</b>
               }
-          return (
-            <> 
-              <span>{word}&nbsp;</span>
-            </>
-          )
-        })}</p> 
+              else if (index < activeIndex){  
+                    return <span className='text-green-300 text-bold'>{word}&nbsp;</span>
+                  }
+              return (
+                <> 
+                  <span>{word}&nbsp;</span>
+                </>
+              )
+            })}</p> 
+        
         </div>
 
         <div className='flex justify-center'>
@@ -88,9 +95,14 @@ const TextArea = () => {
                     className='text-white bg-transparent border-2 rounded-xl border-white self-center focus:border-white'/>
           </div>
 
-          <button id='refreshText' onClick={refresh} className='border-2 rounded-xl h-[4.5vh] w-[6vw] ml-[10vw] self-center w-fit p-2'><h className='font-roboto text-purple-400'>Refresh</h></button>
+          <button id='refreshText' onClick={refresh} className='border-2 rounded-xl h-[4.5vh] w-[6vw] ml-[10vw] self-center w-fit p-2'>
+            <h className='font-roboto text-purple-400'>Refresh</h></button>
         </div>
-
+          
+        <div className='flex mx-auto font-roboto text-white'>
+            KEYBOARD LAYOUT
+        </div>
+  
     </div>
   )
 }
