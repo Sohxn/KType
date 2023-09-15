@@ -4,6 +4,8 @@ import prof from '../assets/icons/prf.svg'
 import set from '../assets/icons/set.svg'
 import tr from '../assets/icons/TRicon.png'
 import { useState } from 'react'
+import {Link} from 'react-router-dom'
+
 
 const Nav = () => {
   const [ddOpen , setddOpen] =  useState(false)  //initial value is set to false
@@ -12,10 +14,7 @@ const Nav = () => {
   {
     setddOpen(!ddOpen)
   }
-  const prfclose = () =>
-  {
-    setddOpen(!ddOpen)
-  }
+
 
   
   return (
@@ -31,8 +30,11 @@ const Nav = () => {
           <div id='profile' className='w-12 h-12 self-center relative' >
             <button id='dropdownHoverButton' onClick={prfopen}><img className='h-fill w-fill' src={prof}/></button>
             <div className={`prfdd absolute mt-[3vh] bg-opacity-20 border-2 rounded-xl w-fit h-fit p-4 ${ddOpen ? '' : 'hidden'}`}>
-              <a href="#" className="block px-4 py-2 text-white font-roboto hover:border-2 hover:rounded-xl">Dashboard</a>
-              <a href="#" className="block px-4 py-2 text-white font-roboto hover:border-2 hover:rounded-xl">Log Out</a>
+              <Link to="/dashboard" className="block px-4 py-2 text-white font-roboto hover:border-2 hover:rounded-xl">Dashboard</Link>
+
+              <Link to="/login" className="block px-4 py-2 text-white font-roboto hover:border-2 hover:rounded-xl">Log in</Link>
+              <Link to="/" className="block px-4 py-2 text-white font-roboto hover:border-2 hover:rounded-xl">Type</Link>
+          
             </div>
           </div>
         </div>
