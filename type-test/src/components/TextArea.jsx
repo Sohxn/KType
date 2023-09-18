@@ -95,7 +95,7 @@ const TextArea = () => {
                     className='text-white bg-transparent border-2 rounded-xl border-white self-center focus:border-white'/>
           </div>
 
-          <button id='refreshText' onClick={refresh} className='border-2 rounded-xl h-[4.5vh] w-[6vw] ml-[10vw] self-center w-fit p-2'>
+          <button id='refreshText' onClick={refresh} className='border-2 rounded-xl h-[4.5vh] w-[6vw] ml-[10vw] self-center p-2'>
             <h className='font-roboto text-purple-400'>Refresh</h></button>
         </div>
           
