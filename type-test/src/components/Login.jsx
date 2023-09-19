@@ -11,11 +11,12 @@ const Login = () => {
           <h className='self-center'>Login.</h>
         </div>
  
-        <div id="inputarea" className='rounded-xl h-[30vh] w-fit mb-auto mt-[-10vh] grid gap-4'>
+        <div id="inputarea" className='rounded-xl h-[30vh] w-fit mb-auto mt-[-10vh] grid gap-4 justify-center'>
            <input placeholder="Email / Username" id="email" type="text" className='flex text-white bg-transparent border-2 h-[50px] rounded-[10px] w-[15vw] border-white self-center focus:border-white'/>
-           <input placeholder="Password" id="password" type="text" className='flex text-white bg-transparent border-2 h-[50px] rounded-[10px] w-[15vw] border-white self-center focus:border-white'/>
+           <input placeholder="Password" id="password" type="password" className='flex text-white bg-transparent border-2 h-[50px] rounded-[10px] w-[15vw] border-white self-center focus:border-white'/>
+           <button className='font-roboto mt-[5vh]'><h className='text-black bg-white p-2 rounded-[10px]'>LOGIN</h></button>
            <button className='font-roboto text-white mt-[5vh]'>Forgot password</button>
-           <Link to='/create' className='flex font-roboto justify-center text-gray-200 mt-[-2vh]'>Create account</Link>
+           <Link to='/create' className='flex font-roboto justify-center text-white'>Create account</Link>
         </div>
       </div>
     </div>
