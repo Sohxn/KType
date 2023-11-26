@@ -1,8 +1,10 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 
 const Dash = () => {
   
   return (
+    <>
     <div className='flex h-[60vh] pt-[20vh] w-[100vw] justify-center'>
       <div className='flex justify-center text-white font-roboto grid grid-cols-3 h-[80vh] w-[20vw] mr-8'>
 
@@ -23,7 +25,7 @@ const Dash = () => {
           </div>
       </div>
 
-      <div className='h-[55vh] w-[50vw] border-2 rounded-2xl justify-center'>
+      <div className='h-[55vh] w-[50vw] border-2 rounded-2xl'>
         <div className='text-white font-roboto'>
           chart area
         </div>
@@ -34,7 +36,18 @@ const Dash = () => {
           <h className='font-roboto text-[3vh] rotate-[90deg]'>Check Ranking</h>
           </div>
       </button>
+    
     </div>
+    
+    <div className='flex justify-center w-screen'>
+      <div className='flex border-2 rounded-2xl h-[80vh] w-screen backdrop-blur-xl'>
+          <div className='flex justify-center w-full'>
+            <h className='flex font-roboto text-[7vh] text-white'>RANKINGS</h>
+          </div>
+      </div>
+    </div>
+    
+  </> 
   )
 }
 
