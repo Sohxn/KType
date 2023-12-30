@@ -2,6 +2,14 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 
 const Dash = () => {
+
+  const [rankOpen, setrankOpen] = useState(false)
+  
+  const openRanks = () =>
+  {
+    setrankOpen(!rankOpen)
+  }
+
   
   return (
     <>
@@ -31,7 +39,7 @@ const Dash = () => {
         </div>
       </div>
 
-      <button className='h-[55vh] w-[5vw] border-2 rounded-2xl justify-center ml-8 text-white hover:bg-white transition-all hover:ease-in-out hover:text-black'>
+      <button onClick={openRanks} className='h-[55vh] w-[5vw] border-2 rounded-2xl justify-center ml-8 text-white hover:bg-white transition-all hover:ease-in-out hover:text-black'>
         <div className='rotate-[90deg]'>
           <h className='font-roboto text-[3vh] rotate-[90deg]'>Check Ranking</h>
           </div>
@@ -39,8 +47,8 @@ const Dash = () => {
     
     </div>
     
-    <div className='flex justify-center w-screen'>
-      <div className='flex border-2 rounded-2xl h-[80vh] w-screen backdrop-blur-xl'>
+    <div id='rankbar' className='flex justify-center mt-[-45vh]'>
+      <div className='flex border-2 rounded-2xl h-[95vh] w-[90vw] backdrop-blur-xl'>
           <div className='flex justify-center w-full'>
             <h className='flex font-roboto text-[7vh] text-white'>RANKINGS</h>
           </div>
