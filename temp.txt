@@ -1,0 +1,13 @@
+useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (sbopen && event.key === 'Escape') {
+        sbtoggle(); // Close the sidebar
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [sbopen, sbtoggle]);
