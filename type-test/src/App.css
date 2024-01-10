@@ -2,4 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.fade-enter-active,
+.fade-leave-leave {
+    transition: opacity 400ms ease-out;
+}
 
+.fade-enter,
+.fade-leave-to{
+    opacity: 0;
+}

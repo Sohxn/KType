@@ -47,27 +47,27 @@ const Nav = () => {
            <></>
           ) : (
             <>  
-            <button className="rounded-full h-12 w-12 border-4 border-blue-300">
+            <button className="rounded-full h-12 w-12 border-4 border-blue-300 ease-in-out duration-500">
               <img src={cbp} className='rounded-full' onClick={sbtoggle}/>
             </button>
             </>
             )}
-
-          <div className={`top-0 right-0 w-[15vw] bg-gray-900 p-10 pl-20 text-white fixed h-full z-40 rounded-2xl shadow-[0px_0px_50px_4px_#2d3748] ease-in-out duration-500 ${
+          {/*sidebar*/} 
+          <div className={`top-0 right-0 lg:w-[30vw] md:w-screen sm:w-screen bg-gray-900 p-10 pl-20 text-white fixed h-full z-40 rounded-2xl ease-in-out duration-500 ${
                 sbopen ? "translate-x-0" : "translate-x-full"
           }`}>
           {/*parent div of sidebar elements*/}
           <div className='font-roboto'>
-              <div className='text-4xl mb-[5vh]'><span>NAME</span></div>
+              <div className='text-4xl mb-[5vh] text-center'><span>NAME</span></div>
               <ul className='mb-[75vh]'>
                 <li>
-                  <Link to="/dashboard">DASH</Link>
+                  <Link to="/dashboard"><div className='hover:bg-white hover:text-black ease-in-out duration-500 min-w-100 border-4 rounded-2xl p-4 text-center mb-[3vh]'>DASH</div></Link>
                 </li>
                 <li>
-                  <Link to="/login">LOGIN</Link>
+                  <Link to="/login"><div className='hover:bg-white hover:text-black ease-in-out duration-500 border-4 rounded-2xl p-4 text-center mb-[3vh]'>LOGIN / SIGNUP</div></Link>
                 </li>
                 <li>
-                  <Link to="/">TYPE</Link>
+                  <Link to="/"><div className='hover:bg-white hover:text-black ease-in-out duration-500 border-4 rounded-2xl p-4 text-center mb-[3vh]'>TYPE</div></Link>
                 </li>
               </ul>
               <div>

@@ -5,26 +5,29 @@ import Dash from './components/Dash'
 import Login from './components/Login'
 import Create from './components/Create'
 import React from 'react'
+import { CSSTransition } from 'react-transition-group'
 //for routing and linking pages together
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 
-
+//main web app screen all themes apply here and only here
 const App = () => {
   return (
-    <Router>
-      <div className='h-screen w-screen bg-gradient-to-tr from-gray-700 via-gray-900 to-black flex overflow-hidden'>
-        <div><Nav/></div>
-        <div>
-          <Routes>
-            <Route path="/" element={<TextArea />} />
-            <Route path="/dashboard" element={<Dash />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/create" element={<Create />} />
-          </Routes>
+    <CSSTransition in={true} timeout={400} classNames="fade">
+      <Router>
+        <div className='h-screen w-screen bg-black from-gray-700 via-gray-900 to-black flex overflow-hidden'>
+          <div><Nav/></div>
+          <div>
+            <Routes>
+              <Route path="/" element={<TextArea />} />
+              <Route path="/dashboard" element={<Dash />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/create" element={<Create />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </CSSTransition>
   )
 }
 
