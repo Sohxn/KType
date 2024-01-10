@@ -19,7 +19,7 @@ const Dash = () => {
         {/*Masonry layout*/}
         <div className="grid grid-cols-3 gap-10 p-4"  style={{ gridTemplateRows: 'auto auto' }}>
           <div className="grid-item border-2 h-[35vh] rounded-[20px] text-white">
-            
+            will add later
           </div>
           <div className="grid-item h-[35vh] rounded-[20px] gap-8 text-white" style={{ display: 'grid', gridTemplateRows: '1fr 1fr' }}>
             <div className='row-item border-2 rounded-[20px]'></div>
