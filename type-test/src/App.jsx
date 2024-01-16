@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 //main web app screen all themes apply here and only here
 const App = () => {
   return (
+    //install kar laude
     <CSSTransition in={true} timeout={400} classNames="fade">
       <Router>
         <div className='h-screen w-screen bg-black from-gray-700 via-gray-900 to-black flex overflow-hidden'>
