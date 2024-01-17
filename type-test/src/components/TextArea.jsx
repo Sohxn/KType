@@ -29,9 +29,6 @@ const TextArea = () => {
   const refresh = () => {
     fetchData();
   };
-
-
-
   //word input
 
    //initial index of the highlighted word is 0 

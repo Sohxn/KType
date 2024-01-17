@@ -60,19 +60,19 @@ const Nav = () => {
           <div className='font-roboto'>
               <div className='text-4xl mb-[5vh] text-center'><span>NAME</span></div>
               <ul className='mb-[75vh]'>
-                <li>
-                  <Link to="/dashboard"><div className='hover:bg-white hover:text-black ease-in-out duration-500 min-w-100 border-4 rounded-2xl p-4 text-center mb-[3vh]'>DASH</div></Link>
+                <li className='flex justify-center'>
+                  <button onClick={sbtoggle} className='min-w-[10vw]'><Link to="/dashboard"><div className='hover:bg-white hover:text-black ease-in-out duration-500 border-2 rounded-2xl p-4 border-white text-center mb-[3vh]'>DASH</div></Link></button>
                 </li>
-                <li>
-                  <Link to="/login"><div className='hover:bg-white hover:text-black ease-in-out duration-500 border-4 rounded-2xl p-4 text-center mb-[3vh]'>LOGIN / SIGNUP</div></Link>
+                <li className='flex justify-center'>
+                <button onClick={sbtoggle} className='min-w-[10vw]'><Link to="/login"><div className='hover:bg-white hover:text-black ease-in-out duration-500 border-2 rounded-2xl p-4 text-center border-white mb-[3vh]'>LOGIN / SIGNUP</div></Link></button>
                 </li>
-                <li>
-                  <Link to="/"><div className='hover:bg-white hover:text-black ease-in-out duration-500 border-4 rounded-2xl p-4 text-center mb-[3vh]'>TYPE</div></Link>
+                <li className='flex justify-center'>
+                <button onClick={sbtoggle} className='min-w-[10vw]'><Link to="/"><div className='hover:bg-white hover:text-black ease-in-out duration-500 border-2 rounded-2xl p-4 text-center border-white mb-[3vh]'>TYPE</div></Link></button>
                 </li>
               </ul>
-              <div>
+              {/* <div>
                   PRESS <span className='border-2 rounded-md p-1'>ESC</span> TO CLOSE
-              </div>
+              </div> */}
           </div>
           </div>
         </div>
