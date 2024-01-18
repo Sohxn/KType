@@ -6,13 +6,15 @@ import axios from 'axios';
 
 
 
-
 const TextArea = () => {
   const [data, setData] = useState([]);
+  const [counter, setCounter] = useState(0);
+
   const fetchData = () => {
     axios.get('http://127.0.0.1:8080/api/data')
       .then((response) => {
         setData(response.data);
+        setCounter(response.data.length); // Set counter based on the length of the fetched data
         console.log("Data refreshed");
       })
       .catch((error) => {
@@ -36,26 +38,76 @@ const TextArea = () => {
   const [input , setInput] = useState('')
   const [activeIndex , setIndex] = useState(0)
 
-  function proc_input(value)
-  {
-    if(value.endsWith(' '))
-    {
-      if(value.trim() === data[activeIndex])
-      {
-        console.log("equal")
-      }
-      else
-      {
-        console.log("wrong")
-      }
-      setIndex(index => index + 1)
-      setInput('')
-    }
-    else
-    {
-      setInput(value)
-    }
+
+
+const curr_Accuracy = () => {
+  const overallAccuracy = (counter / data.length) * 100;
+  console.log(overallAccuracy);
+};
+
+const incrementCounter = () => {
+  console.log(counter)
+  setCounter(counter - 1);
+};
+
+
+const sendRequest = async (endpoint, method, data) => {
+  try {
+    console.log(`Sending ${method} request to ${endpoint}`);
+    
+    const response = await axios({
+      method: method,
+      url: endpoint,
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any other headers if needed
+      },
+      data: data,
+    });
+
+    console.log('Response:', response.data);
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error during request:', error);
+    throw error;
   }
+};
+
+function proc_input(value) {
+  if (value.endsWith(' ')) {
+    if (activeIndex === data.length) {
+      console.log("You've reached the last word!");
+      // Handle the case when the last word is entered
+      const requestData = {
+        accur: (counter / data.length) * 100,
+      };
+
+      // Make an HTTP POST request using the sendRequest function with Axios
+      sendRequest('http://127.0.0.1:8080/api/new_accuracy', 'post', requestData)
+        .then(data => {
+          // Handle the response data if needed
+          console.log('Response:', data);
+        })
+        .catch(error => {
+          // Handle errors
+          console.error('Error during request:', error);
+        });
+    }else if (value.trim() === data[activeIndex]) {
+      console.log("equal");
+      curr_Accuracy();setIndex(index => index + 1);
+      setInput('');
+    } else {
+      console.log("wrong");
+      incrementCounter();
+      curr_Accuracy();
+      setIndex(index => index + 1);
+      setInput('');
+    }
+  } else {
+    setInput(value);
+  }
+}
 
   
 

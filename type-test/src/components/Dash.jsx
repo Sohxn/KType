@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import axios from 'axios'; 
 // import {themes} from './themes.js'
 
 const Dash = () => {
@@ -7,12 +8,27 @@ const Dash = () => {
   const [rankOpen, setrankOpen] = useState(false)
 
   const [currentSpeed, setCurrentSpeed] = useState(0);
-  const targetSpeed = 120 //say
+  // const targetSpeed = 0 //say
+  const [targetSpeed, setTargetSpeed] = useState(0);
   const animationDuration = 450
 
-  useEffect(() => {
-    let startTime;
+  const fetchData = () => {
+    axios.get('http://127.0.0.1:8080/api/get_accuracy')
+      .then((response) => {
+        setTargetSpeed(response.data.accurracy);
+        console.log(response.data.accurracy);
+        console.log("Data refreshed");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
+
+
+  useEffect(() => {
+    fetchData();
+    let startTime;
     const animate = (timestamp) => {
       if (!startTime) startTime = timestamp;
 
