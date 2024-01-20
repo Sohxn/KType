@@ -6,11 +6,10 @@ import axios from 'axios';
 const Dash = () => {
 
   const [rankOpen, setrankOpen] = useState(false)
-
   const [currentSpeed, setCurrentSpeed] = useState(0);
-  // const targetSpeed = 0 //say
   const [targetSpeed, setTargetSpeed] = useState(0);
   const animationDuration = 450
+  
 
   const fetchData = () => {
     axios.get('http://127.0.0.1:8080/api/get_accuracy')

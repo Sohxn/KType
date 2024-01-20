@@ -114,26 +114,26 @@ function proc_input(value) {
 
 
   return (
-    <div className='flex w-screen h-fit mt-[30vh] grid grid-rows-4'>
+    <div className='flex w-screen h-fit p-40 grid grid-rows-4'>
 
-        <div className='flex h-[5vh] font-roboto text-white mx-auto '>UTILITY AREA</div>
-        
-        <div className='flex h-fit min-h-[10vh] min-w-[40vw] mx-auto max-w-[45vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl'>
-        
-            <p className='break-all'>{data.map((word, index) => {
-              if (index === activeIndex) {
-                return <b className='text-purple-400'>{word}&nbsp;</b>
-              }
-              else if (index < activeIndex){  
-                    return <span className='text-green-300 text-bold'>{word}&nbsp;</span>
-                  }
-              return (
-                <> 
-                  <span>{word}&nbsp;</span>
-                </>
-              )
-            })}</p> 
-        
+        <div className='flex h-fit pb-20 min-h-[7vh] min-w-[40vw] mx-auto max-w-[45vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl'>
+          <div className='h-fit p-4'>
+          
+              <p className='break-all'>{data.map((word, index) => {
+                if (index === activeIndex) {
+                  return <b className='text-purple-400'>{word}&nbsp;</b>
+                }
+                else if (index < activeIndex){  
+                      return <span className='text-green-300 text-bold'>{word}&nbsp;</span>
+                    }
+                return (
+                  <> 
+                    <span>{word}&nbsp;</span>
+                  </>
+                )
+              })}</p> 
+          
+          </div>
         </div>
 
         <div className='flex justify-center'>
