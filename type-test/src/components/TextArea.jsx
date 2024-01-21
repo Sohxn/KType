@@ -38,19 +38,8 @@ const TextArea = () => {
     fetchData();
   }, []);
 
-  // You can call this function to refresh the data
-  const refresh = () => {
-    fetchData();
-    setInput('');
-  };
-  //word input
-
-   //initial index of the highlighted word is 0 
-   //whenever user presses space , index jumps to the next word
-  const [input , setInput] = useState('') //im using this for the timer as well
-  const [activeIndex , setIndex] = useState(0)
-
-
+ const [input , setInput] = useState('') //im using this for the timer as well
+const [activeIndex , setIndex] = useState(0)
 
 const curr_Accuracy = () => {
   const overallAccuracy = (counter / data.length) * 100;
@@ -107,7 +96,8 @@ function proc_input(value) {
         });
     }else if (value.trim() === data[activeIndex]) {
       console.log("equal");
-      curr_Accuracy();setIndex(index => index + 1);
+      curr_Accuracy();
+      setIndex(index => index + 1);
       setInput('');
     } else {
       console.log("wrong");
@@ -121,10 +111,15 @@ function proc_input(value) {
   }
 }
 
+//use this to refresh the data
+const refresh = () => {
+  fetchData();
+  setInput('');
+  setIndex(0); //will reset the highlighted word when refresh is pressed
+};
+
   
 //front end
-
-
   return (
     <div className='flex w-screen h-fit p-40 grid grid-rows-4'>
 
@@ -132,7 +127,7 @@ function proc_input(value) {
           <div className='h-fit p-4'>
           
               <p className='break-all'>{data.map((word, index) => {
-                if (index === activeIndex) {
+                if (index === activeIndex){
                   return <b className='text-purple-400'>{word}&nbsp;</b>
                 }
                 else if (index < activeIndex){  
