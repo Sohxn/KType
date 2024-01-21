@@ -10,6 +10,17 @@ const TextArea = () => {
   const [data, setData] = useState([]);
   const [counter, setCounter] = useState(0);
 
+  //@vineet this is for the timer
+  const [inp, setinp] = useState('')
+
+  const trigger_timer = (val) =>{
+    if(!inp && val.length > 0){
+      console.log("The first letter has been typed. START TIMER.")
+    }
+
+    setinp(val)
+  }
+
   const fetchData = () => {
     axios.get('http://127.0.0.1:8080/api/data')
       .then((response) => {
@@ -30,12 +41,13 @@ const TextArea = () => {
   // You can call this function to refresh the data
   const refresh = () => {
     fetchData();
+    setInput('');
   };
   //word input
 
    //initial index of the highlighted word is 0 
    //whenever user presses space , index jumps to the next word
-  const [input , setInput] = useState('')
+  const [input , setInput] = useState('') //im using this for the timer as well
   const [activeIndex , setIndex] = useState(0)
 
 
@@ -110,13 +122,13 @@ function proc_input(value) {
 }
 
   
-
+//front end
 
 
   return (
     <div className='flex w-screen h-fit p-40 grid grid-rows-4'>
 
-        <div className='flex h-fit pb-20 min-h-[7vh] min-w-[40vw] mx-auto max-w-[45vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl'>
+        <div className='flex h-fit p-4 min-h-[7vh] min-w-[40vw] mx-auto max-w-[45vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl'>
           <div className='h-fit p-4'>
           
               <p className='break-all'>{data.map((word, index) => {
@@ -140,7 +152,8 @@ function proc_input(value) {
           <div className='flex w-fit h-fit rounded-xl border-white self-center text-white font-roboto text-2xl'>
             <input autoFocus type="text" 
                     value={input} 
-                    onChange={(e) => proc_input(e.target.value)} 
+                    onChange={(e) => {proc_input(e.target.value)
+                                      trigger_timer(e.target.value)}} 
                     className='text-white bg-transparent border-2 rounded-xl border-white self-center focus:border-white'/>
           </div>
 
