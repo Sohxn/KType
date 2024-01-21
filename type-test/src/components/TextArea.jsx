@@ -9,6 +9,10 @@ import axios from 'axios';
 const TextArea = () => {
   const [data, setData] = useState([]);
   const [counter, setCounter] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [intervalId, setIntervalId] = useState(null);
+  const [wordCount, setWordCount] = useState(0);
+  const wordsPerMinute = (wordsEntered, totalSeconds) => wordsEntered / (totalSeconds / 60);
 
   //@vineet this is for the timer
   const [inp, setinp] = useState('')
@@ -16,10 +20,29 @@ const TextArea = () => {
   const trigger_timer = (val) =>{
     if(!inp && val.length > 0){
       console.log("The first letter has been typed. START TIMER.")
+      setSeconds(1);
     }
 
     setinp(val)
   }
+  useEffect(() => {
+    // Check if inp is not empty and seconds is greater than 0 before starting the interval
+    if (inp && seconds > 0) {
+      const id = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds + 1);
+      }, 1000);
+
+      // Save the interval ID to state
+      setIntervalId(id);
+
+      // Cleanup the interval when the component unmounts
+      return () => clearInterval(id);
+    }
+  }, [inp, seconds]); 
+  const stopTimer = () => {
+    // Clear the interval to stop the timer
+    clearInterval(intervalId);
+  };
 
   const fetchData = () => {
     axios.get('http://127.0.0.1:8080/api/data')
@@ -77,9 +100,16 @@ const sendRequest = async (endpoint, method, data) => {
 
 function proc_input(value) {
   if (value.endsWith(' ')) {
+    console.log('Input Value:', value); 
+    const wordsEntered = value.trim().length;
+    console.log(wordsEntered);
+    setWordCount(previousWordCount => previousWordCount + wordsEntered);
     if (activeIndex === data.length) {
       console.log("You've reached the last word!");
       // Handle the case when the last word is entered
+      stopTimer();
+      const wpm = wordsPerMinute(wordCount, seconds);
+      console.log('Words per minute:', wpm);
       const requestData = {
         accur: (counter / data.length) * 100,
       };
