@@ -118,6 +118,16 @@ const refresh = () => {
   setIndex(0); //will reset the highlighted word when refresh is pressed
 };
 
+function getWordClass(index) {
+  if (index === activeIndex) {
+    return 'text-purple-400'; // Highlight the active word
+  } else if (index < activeIndex) {
+    return 'text-green-300 text-bold'; // Highlight correctly typed words
+  } else {
+    return 'text-red-500'; // Highlight mismatched words in red
+  }
+}
+
   
 //front end
   return (
@@ -126,19 +136,17 @@ const refresh = () => {
         <div className='flex h-fit p-4 min-h-[7vh] min-w-[40vw] mx-auto max-w-[45vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl'>
           <div className='h-fit p-4'>
           
-              <p className='break-all'>{data.map((word, index) => {
-                if (index === activeIndex){
-                  return <b className='text-purple-400'>{word}&nbsp;</b>
-                }
-                else if (index < activeIndex){  
-                      return <span className='text-green-300 text-bold'>{word}&nbsp;</span>
-                    }
-                return (
-                  <> 
-                    <span>{word}&nbsp;</span>
-                  </>
-                )
-              })}</p> 
+          {/* main content */}
+          <div className='h-fit p-2'>
+            {data.map((word, index) => (
+              <span key={index}>
+                {index > 0 && ' '} {/* Add a space between words */}
+                <span className={getWordClass(index)}>
+                  {word}
+                </span>
+              </span>
+            ))}
+          </div>
           
           </div>
         </div>
@@ -157,7 +165,9 @@ const refresh = () => {
         </div>
           
         <div className='flex mx-auto font-roboto text-white'>
-            KEYBOARD LAYOUT
+            <div>
+
+            </div>
         </div>
   
     </div>
