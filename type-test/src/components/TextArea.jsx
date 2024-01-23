@@ -153,7 +153,11 @@ function getWordClass(index) {
     return 'text-purple-400'; // Highlight the active word
   } else if (index < activeIndex) {
     return 'text-green-300 text-bold'; // Highlight correctly typed words
-  } else {
+  } 
+  else if(index > activeIndex){ //if the word hasnt been attempted yet 
+    return 'text-purple-400';
+  }
+  else {
     return 'text-red-500'; // Highlight mismatched words in red
   }
 }
