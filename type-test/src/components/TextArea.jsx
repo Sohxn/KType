@@ -3,8 +3,7 @@ import { useRef , useState} from 'react'
 import '../App.css'
 import { useEffect} from 'react'
 import axios from 'axios';
-
-
+const incorr = []
 
 const TextArea = () => {
   const [data, setData] = useState([]);
@@ -98,6 +97,11 @@ const sendRequest = async (endpoint, method, data) => {
   }
 };
 
+//incorrect word indices list
+//gets refreshed 
+//have to keep content
+
+
 function proc_input(value) {
   if (value.endsWith(' ')) {
     console.log('Input Value:', value); 
@@ -132,6 +136,8 @@ function proc_input(value) {
     } else {
       console.log("wrong");
       incrementCounter();
+      incorr.push(activeIndex);
+      console.log(incorr)
       curr_Accuracy();
       setIndex(index => index + 1);
       setInput('');
@@ -148,30 +154,38 @@ const refresh = () => {
   setIndex(0); //will reset the highlighted word when refresh is pressed
 };
 
+
+//color formatting of words according to word typed
+//bug to be fixed
 function getWordClass(index) {
   if (index === activeIndex) {
-    return 'text-purple-400'; // Highlight the active word
-  } else if (index < activeIndex) {
-    return 'text-green-300 text-bold'; // Highlight correctly typed words
+    return 'text-white-400'; // Highlight the active word
+  }
+  else if(index < activeIndex) {
+    if(incorr.includes(index)){
+      return 'text-red-400'
+    }
+    else{
+      return 'text-green-300 text-bold'; // Highlight correctly typed words
+    }
   } 
   else if(index > activeIndex){ //if the word hasnt been attempted yet 
     return 'text-purple-400';
   }
-  else {
-    return 'text-red-500'; // Highlight mismatched words in red
-  }
 }
+
 
   
 //front end
   return (
     <div className='flex w-screen h-fit p-40 grid grid-rows-4'>
 
-        <div className='flex h-fit p-4 min-h-[7vh] min-w-[40vw] mx-auto max-w-[45vw] border-2 rounded-xl w-fit border-white self-center text-white p-5 font-roboto text-2xl'>
-          <div className='h-fit p-4'>
+        <div className='flex p-5 min-h-[7vh] min-w-[40vw] mx-auto max-w-[45vw] border-2 rounded-xl w-fit border-white self-center text-white font-roboto text-2xl'>
+          {/* grid system to incorporate both the text area and the typing area inside the box */}
+          <div className='flex h-fit p-4 grid grid-rows-2'>
           
           {/* main content */}
-          <div className='h-fit p-2'>
+          <div className='grid-item h-fit p-2'>
             {data.map((word, index) => (
               <span key={index}>
                 {index > 0 && ' '} {/* Add a space between words */}
@@ -181,29 +195,26 @@ function getWordClass(index) {
               </span>
             ))}
           </div>
-          
-          </div>
-        </div>
 
-        <div className='flex justify-center'>
-          <div className='flex w-fit h-fit rounded-xl border-white self-center text-white font-roboto text-2xl'>
-            <input autoFocus type="text" 
-                    value={input} 
-                    onChange={(e) => {proc_input(e.target.value)
-                                      trigger_timer(e.target.value)}} 
-                    className='text-white bg-transparent border-2 rounded-xl border-white self-center focus:border-white'/>
-          </div>
+          <div className='grid-item h-fit p-2 mt-10'>
+              {/*typing box*/}
+            <div className='flex justify-center'>
+              <div className='flex w-fit h-fit rounded-xl border-white self-center text-white font-roboto text-2xl'>
+                <input autoFocus type="text" 
+                        value={input} 
+                        onChange={(e) => {proc_input(e.target.value)
+                                          trigger_timer(e.target.value)}} 
+                        className='text-white bg-transparent border-2 rounded-xl border-white self-center focus:border-white'/>
+              </div>
 
-          <button id='refreshText' onClick={refresh} className='border-2 rounded-xl h-[4.5vh] w-[6vw] ml-[10vw] self-center p-2'>
-            <h className='font-roboto text-purple-400'>Refresh</h></button>
-        </div>
-          
-        <div className='flex mx-auto font-roboto text-white'>
-            <div>
-
+              <button id='refreshText' onClick={refresh} className='border-2 text-[2vh] rounded-xl h-[4.5vh] w-[6vw] ml-[10vw] self-center'>
+                <h className='font-roboto text-purple-400'>Refresh</h>
+              </button>
             </div>
+          </div>
+          
+          </div>
         </div>
-  
     </div>
   )
 }
