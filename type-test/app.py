@@ -11,6 +11,7 @@ CORS(app)
 @app.route('/api/data')
 def get_data():
     raw =  sentence.paragraph()
+    raw = raw.lower()
     raw = re.sub(r"[!\"#\$%&\'\(\)\*\+,-\./:;<=>\?@\[\\\]\^_`{\|}~]" , "" , raw) #removing punctuations
     data = raw[0:200].split()
     return jsonify(data)

@@ -3,6 +3,8 @@ import { useRef , useState} from 'react'
 import '../App.css'
 import { useEffect} from 'react'
 import axios from 'axios';
+
+//will not get refreshed every time hence global
 const incorr = []
 
 const TextArea = () => {
@@ -11,8 +13,9 @@ const TextArea = () => {
   const [seconds, setSeconds] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
   const [wordCount, setWordCount] = useState(0);
+  //wpm
   const wordsPerMinute = (wordsEntered, totalSeconds) => wordsEntered / (totalSeconds / 60);
-
+  
   //@vineet this is for the timer
   const [inp, setinp] = useState('')
 
