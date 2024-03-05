@@ -53,6 +53,7 @@ const Dash = () => {
   return (
    <>
     <div className='flex h-screen w-screen justify-center'>
+    <span className='font-roboto text-white mt-[10vh] ml-[-5vw]'>Stats</span>
       {/* div with imaginary border that was pre calculated lmao */}
       <div className='w-[60vw] h-[75vh] m-[10vw] mt-[15vh] rounded-3xl'>
         {/*Masonry layout*/}
@@ -68,8 +69,13 @@ const Dash = () => {
             <div className='row-item border-2 rounded-[35px] border-[#B3B7EE] bg-[#B3B7EE]'></div>
           </div>
 
-          <div className="grid-item border-2 row-span-2 rounded-[35px] text-white border-white bg-white">
-            
+          <div className="grid-item border-2 row-span-2 rounded-[35px] text-white border-white bg-white ">
+            <div className='flex grid grid-rows-2 text-center justify-center font-roboto text-3xl text-black'>
+              <span className='pt-5'>Modes</span>
+              <div className='m-3'>
+                
+              </div>
+            </div>
           </div>
           <div className="grid-item flex justify-center items-center border-4 h-[30vh] col-span-2 rounded-[35px] text-white border-[#f5d0fe]">
              <span className='font-roboto text-[5vh] m-4'>streak will be here</span>

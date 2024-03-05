@@ -3,13 +3,12 @@ import '../app.css'
 import pattern from '../assets/vectors/backdrop_vector.svg'
 import {Link} from 'react-router-dom'
 import google from '../assets/icons/google.png'
-
-//@vineet this is to set up Google authentication
-const [GAuth, toggle_GAuth] = useState(false)
-
-
+import {useState} from 'react'
 
 const Login = () => {
+  //@vineet this is to set up Google authentication
+  const [GAuth, toggle_GAuth] = useState(0)
+
   return (
     <div className='flex bg-black h-screen w-screen justify-center'>
       <div className='h-[65vh] bg-cover w-[24vw] border-4 rounded-[20px] mt-[20vh] justify-center grid grid-rows-2 outline-3' style={{ backgroundImage: `url(${pattern})` }}>

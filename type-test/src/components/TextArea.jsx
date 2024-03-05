@@ -13,9 +13,12 @@ const TextArea = () => {
   const [seconds, setSeconds] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
   const [wordCount, setWordCount] = useState(0);
-  //wpm
-  const wordsPerMinute = (wordsEntered, totalSeconds) => wordsEntered / (totalSeconds / 60);
+  const [keyboard, showKeyboard] = useState(false)
+
   
+
+  //wpm
+  const wordsPerMinute = (wordsEntered, totalSeconds) => wordsEntered / (totalSeconds / 60)
   //@vineet this is for the timer
   const [inp, setinp] = useState('')
 
@@ -45,9 +48,9 @@ const TextArea = () => {
     // Clear the interval to stop the timer
     clearInterval(intervalId);
   };
-
-  const fetchData = () => {
-    axios.get('http://127.0.0.1:8080/api/data')
+  //added word_count endpoint in server address
+  const fetchData = (total_words) => {
+    axios.get(`http://127.0.0.1:8080/api/data/${total_words}`)
       .then((response) => {
         setData(response.data);
         setCounter(response.data.length); // Set counter based on the length of the fetched data
@@ -56,12 +59,13 @@ const TextArea = () => {
       .catch((error) => {
         console.error(error);
       });
+      //reset progress
+      setInput('');
+      setIndex(0);
   };
 
   // Fetch data when the component mounts
-  useEffect(() => {
-    fetchData();
-  }, []);
+  useEffect(() => {fetchData(10);}, []);
 
  const [input , setInput] = useState('') //im using this for the timer as well
 const [activeIndex , setIndex] = useState(0)
@@ -150,12 +154,6 @@ function proc_input(value) {
   }
 }
 
-//use this to refresh the data
-const refresh = () => {
-  fetchData();
-  setInput('');
-  setIndex(0); //will reset the highlighted word when refresh is pressed
-};
 
 
 //color formatting of words according to word typed
@@ -173,7 +171,7 @@ function getWordClass(index) {
     }
   } 
   else if(index > activeIndex){ //if the word hasnt been attempted yet 
-    return 'text-purple-400';
+    return 'text-gray-900';
   }
 }
 
@@ -181,44 +179,72 @@ function getWordClass(index) {
   
 //front end
   return (
-    <div className='flex w-screen h-fit p-40 grid grid-rows-4'>
-
-        <div className='flex p-5 min-h-[7vh] min-w-[40vw] mx-auto max-w-[45vw] border-2 rounded-xl w-fit border-white self-center text-white font-roboto text-2xl'>
+  <>
+  <div className='h-[85vh] w-screen'>
+    <div className='flex h-[6vh] w-screen mt-[10vh] justify-center'>
+      <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(10)}>10</button>
+      <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(50)}>50</button>
+      <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(100)}>100</button>
+      <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(150)}>150</button>
+      <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(200)}>200</button>
+    </div>
+    <div className='flex w-screen grid grid-rows-5 h-fit'>
+        <div className='flex p-5 min-h-[5vh] min-w-[40vw] mx-auto max-w-[45vw] bg-[#746378] rounded-xl w-fit self-center text-white font-roboto text-[20px]'>
           {/* grid system to incorporate both the text area and the typing area inside the box */}
-          <div className='flex h-fit p-4 grid grid-rows-2'>
+          <div className='flex grid grid-rows-2'>
           
-          {/* main content */}
-          <div className='grid-item h-fit p-2'>
-            {data.map((word, index) => (
-              <span key={index}>
-                {index > 0 && ' '} {/* Add a space between words */}
-                <span className={getWordClass(index)}>
-                  {word}
+            {/* main content */}
+            <div className='grid-item p-2'>
+              {data.map((word, index) => (
+                <span key={index}>
+                  {index > 0 && ' '} {/* Add a space between words */}
+                  <span className={getWordClass(index)}>
+                    {word}
+                  </span>
                 </span>
-              </span>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          <div className='grid-item h-fit p-2 mt-10'>
+          <div className='grid-item h-fit p-2 mt-2'>
               {/*typing box*/}
             <div className='flex justify-center'>
-              <div className='flex w-fit h-fit rounded-xl border-white self-center text-white font-roboto text-2xl'>
+              <div className='flex w-fit h-fit rounded-xl border-none outline-none self-center text-white font-roboto text-2xl'>
                 <input autoFocus type="text" 
                         value={input} 
                         onChange={(e) => {proc_input(e.target.value)
                                           trigger_timer(e.target.value)}} 
-                        className='text-white bg-transparent border-2 rounded-xl border-white self-center focus:border-white'/>
+                        className='text-white bg-transparent self-center focus:border-white rounded-xl'/>
               </div>
-
-              <button id='refreshText' onClick={refresh} className='border-2 text-[2vh] rounded-xl h-[4.5vh] w-[6vw] ml-[10vw] self-center'>
-                <h className='font-roboto text-purple-400'>Refresh</h>
-              </button>
             </div>
           </div>
           
+          
           </div>
+          
         </div>
-    </div>
+        {/* KEYBOARD LAYOUT */}
+        {keyboard && (
+        <div className='flex h-[35vh] w-screen justify-center ease-in-out duration-500'>
+          <div className='flex h-[25vh] w-[25vw] bg-white rounded-2xl'>
+
+          </div>      
+        </div>
+        )}
+        
+
+    </div>   
+</div>
+
+<div className='flex w-screen h-fit justify-center bg-gray-800 p-2'>
+  <div className='flex grid grid-cols-5 text-black font-roboto h-[3vh] w-[40vw]'>
+    <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg'>option1</button>
+    <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg ml-2'>option2</button>
+    <button className='grid-item text-sm bg-[#c4bbc7] hover:bg-white ease-in-out duration-500 rounded-lg ml-2' onClick={() => showKeyboard(!keyboard)}>layout</button>
+    <button className='grid-item text-sm bg-[#e0dbe1] hover:bg-white ease-in-out duration-500 rounded-lg ml-2'>themes (beta)</button>
+    <button className='grid-item text-sm bg-white rounded-lg ml-2'>modes (beta)</button>
+  </div>
+</div>
+</>
   )
 }
 

@@ -16,7 +16,7 @@ const App = () => {
     //install kar laude
     <CSSTransition in={true} timeout={400} classNames="fade">
       <Router>
-        <div className='h-screen w-screen bg-black from-gray-700 via-gray-900 to-black flex overflow-hidden'>
+        <div className='h-screen w-screen bg-[#111827] flex overflow-hidden'>
           <div><Nav/></div>
           <div>
             <Routes>
@@ -27,6 +27,7 @@ const App = () => {
             </Routes>
           </div>
         </div>
+        
       </Router>
     </CSSTransition>
   )

@@ -8,12 +8,12 @@ sentence  = DocumentGenerator()
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/api/data')
-def get_data():
+@app.route('/api/data/<int:word_count>')
+def get_data(word_count):
     raw =  sentence.paragraph()
     raw = raw.lower()
     raw = re.sub(r"[!\"#\$%&\'\(\)\*\+,-\./:;<=>\?@\[\\\]\^_`{\|}~]" , "" , raw) #removing punctuations
-    data = raw[0:200].split()
+    data = raw.split()[:word_count]
     return jsonify(data)
 
 
