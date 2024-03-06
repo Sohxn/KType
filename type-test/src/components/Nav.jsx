@@ -39,7 +39,7 @@ const Nav = () => {
   return (
     <div  className='fixed flex h-[12vh] w-screen justify-center'>
         <div className='mt-6 rounded-lg w-[90vw] flex'>
-          <h className='font-roboto text-[4vh] text-white hover:cursor-pointer self-center'>TypeRabbit. </h>
+          <h className='font-roboto text-[3.5vh] text-white hover:cursor-pointer'>TypeRabbit. </h>
         </div>
 
         <div id='buttontoopensidebar' className='text-white font-roboto fixed flex cursor-pointer right-10 top-10'>

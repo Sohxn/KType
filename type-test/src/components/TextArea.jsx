@@ -3,6 +3,7 @@ import { useRef , useState} from 'react'
 import '../App.css'
 import { useEffect} from 'react'
 import axios from 'axios';
+import ResultOverlay from './ResultOverlay';
 
 //will not get refreshed every time hence global
 const incorr = []
@@ -15,7 +16,13 @@ const TextArea = () => {
   const [wordCount, setWordCount] = useState(0);
   const [keyboard, showKeyboard] = useState(false)
 
-  
+  //result overlay
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false)
+
+  const handleOverlay = () => {
+  setIsOverlayOpen(true)
+  }
+
 
   //wpm
   const wordsPerMinute = (wordsEntered, totalSeconds) => wordsEntered / (totalSeconds / 60)
@@ -115,7 +122,9 @@ function proc_input(value) {
     const wordsEntered = value.trim().length;
     console.log(wordsEntered);
     setWordCount(previousWordCount => previousWordCount + wordsEntered);
-    if (activeIndex === data.length) {
+    //overlay rendering function call condition
+    
+    if (activeIndex === data.length -1) {
       console.log("You've reached the last word!");
       // Handle the case when the last word is entered
       stopTimer();
@@ -135,6 +144,8 @@ function proc_input(value) {
           // Handle errors
           console.error('Error during request:', error);
         });
+        //open session result overlay
+        handleOverlay();
     }else if (value.trim() === data[activeIndex]) {
       console.log("equal");
       curr_Accuracy();
@@ -176,9 +187,12 @@ function getWordClass(index) {
 }
 
 
+
   
 //front end
   return (
+<>
+{isOverlayOpen && <ResultOverlay></ResultOverlay>}
   <div className='h-[200vh] w-screen'>
   <div className='h-[85vh] w-screen'>
     <div className='flex h-[6vh] w-screen mt-[10vh] justify-center'>
@@ -245,6 +259,7 @@ function getWordClass(index) {
   </div>
 </div>
 </div>
+</>
   )
 }
 
