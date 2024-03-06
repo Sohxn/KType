@@ -53,7 +53,7 @@ const Nav = () => {
             </>
             )}
           {/*sidebar*/} 
-          <div className={`top-0 right-0 lg:w-[30vw] md:w-screen sm:w-screen bg-gray-900 p-10 pl-20 text-white fixed h-full z-40 rounded-2xl ease-in-out duration-500 ${
+          <div className={`top-0 right-0 lg:w-[20vw] md:w-screen sm:w-screen bg-gray-900 p-10 pl-20 text-white fixed h-full z-40 rounded-2xl ease-in-out duration-500 ${
                 sbopen ? "translate-x-0" : "translate-x-full"
           }`}>
           {/*parent div of sidebar elements*/}

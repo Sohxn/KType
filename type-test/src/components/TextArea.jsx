@@ -179,7 +179,7 @@ function getWordClass(index) {
   
 //front end
   return (
-  <>
+  <div className='h-[200vh] w-screen'>
   <div className='h-[85vh] w-screen'>
     <div className='flex h-[6vh] w-screen mt-[10vh] justify-center'>
       <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(10)}>10</button>
@@ -235,16 +235,16 @@ function getWordClass(index) {
     </div>   
 </div>
 
-<div className='flex w-screen h-fit justify-center bg-gray-800 p-2'>
+<div className='flex fixed w-screen h-20 justify-center bg-gray-800 p-2 rounded-[60px]'>
   <div className='flex grid grid-cols-5 text-black font-roboto h-[3vh] w-[40vw]'>
-    <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg'>option1</button>
+    <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg'>sidebar</button>
     <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg ml-2'>option2</button>
     <button className='grid-item text-sm bg-[#c4bbc7] hover:bg-white ease-in-out duration-500 rounded-lg ml-2' onClick={() => showKeyboard(!keyboard)}>layout</button>
     <button className='grid-item text-sm bg-[#e0dbe1] hover:bg-white ease-in-out duration-500 rounded-lg ml-2'>themes (beta)</button>
     <button className='grid-item text-sm bg-white rounded-lg ml-2'>modes (beta)</button>
   </div>
 </div>
-</>
+</div>
   )
 }
 
