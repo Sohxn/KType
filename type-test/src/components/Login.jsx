@@ -9,7 +9,7 @@ import { useAuth } from '../contexts/authContext'
 
 const Login = () => {
   //@vineet this is to set up Google authentication
-  const { userLoggedIn } = useAuth()
+  const [ userLoggedIn ] = useAuth()
   const [GAuth, toggle_GAuth] = useState(0)
 
   const onSubmit = async (e) => {
