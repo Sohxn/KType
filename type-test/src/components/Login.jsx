@@ -1,56 +1,99 @@
-import React from 'react'
-import '../app.css'
-import pattern from '../assets/vectors/backdrop_vector.svg'
-import {Link} from 'react-router-dom'
-import google from '../assets/icons/google.png'
-import {useState} from 'react'
-import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../firebase/auth'
-import { useAuth } from '../contexts/authContext'
+import { useState } from "react";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+} from "firebase/auth";
+// import "./App.css";
+import { auth } from "./firebase-config";
 
-const Login = () => {
-  //@vineet this is to set up Google authentication
-  const [ userLoggedIn ] = useAuth()
-  const [GAuth, toggle_GAuth] = useState(0)
+function App() {
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
-  const onSubmit = async (e) => {
-    e.preventDefault()
-    if(!isSigningIn) {
-        setIsSigningIn(true)
-        await doSignInWithEmailAndPassword(email, password)
-        // doSendEmailVerification()
-     }
-  }
+  const [user, setUser] = useState({});
 
-    const onGoogleSignIn = (e) => {
-        e.preventDefault()
-        if (!isSigningIn) {
-            setIsSigningIn(true)
-            doSignInWithGoogle().catch(err => {
-                setIsSigningIn(false)
-            })
-        }
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
+  const register = async () => {
+    try {
+      const user = await createUserWithEmailAndPassword(
+        auth,
+        registerEmail,
+        registerPassword
+      );
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
     }
+  };
 
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const logout = async () => {
+    await signOut(auth);
+  };
 
   return (
-    <div className='flex bg-black h-screen w-screen justify-center'>
-      <div className='h-[65vh] bg-cover w-[24vw] border-4 rounded-[20px] mt-[20vh] justify-center grid grid-rows-2 outline-3' style={{ backgroundImage: `url(${pattern})` }}>
-        <div id='logintitle' className='flex h-[6vh] w-[10vw] bg-white row rounded-[7px] font-roboto text-2xl text-center justify-center mt-[5vh] m-auto'>
-          <h className='self-center'>Login.</h>
-        </div>
- 
-        <div id="inputarea" className='rounded-xl h-[30vh] w-fit mb-auto mt-[-10vh] grid gap-4 justify-center'>
-           <input placeholder="Email / Username" id="email" type="text" className='flex text-white bg-transparent border-2 h-[50px] rounded-[10px] w-[15vw] border-white self-center focus:border-white'/>
-           <input placeholder="Password" id="password" type="password" className='flex text-white bg-transparent border-2 h-[50px] rounded-[10px] w-[15vw] border-white self-center focus:border-white'/>
-           <button className='flex text-white text-center justify-center items-center font-roboto bg-transparent border-2 h-[50px] rounded-[10px] w-[15wv] border-white self-center focus:border-white'>Continue with<img src={google} className='w-[40px] h-[40px] ml-[10px]'/></button>
-           
-           <button className='font-roboto mt-[2vh]'><h className='text-black bg-white p-2 rounded-[10px]'>LOGIN</h></button>
-           <button className='font-roboto text-white mt-[2vh]'>Forgot password</button>
-           <Link to='/create' className='flex font-roboto justify-center text-white'>Create account</Link>
-        </div>
+    <div className="App">
+      <div>
+        <h3> Register User </h3>
+        <input
+          placeholder="Email..."
+          onChange={(event) => {
+            setRegisterEmail(event.target.value);
+          }}
+        />
+        <input
+          placeholder="Password..."
+          onChange={(event) => {
+            setRegisterPassword(event.target.value);
+          }}
+        />
+
+        <button onClick={register}> Create User</button>
       </div>
+
+      <div>
+        <h3> Login </h3>
+        <input
+          placeholder="Email..."
+          onChange={(event) => {
+            setLoginEmail(event.target.value);
+          }}
+        />
+        <input
+          placeholder="Password..."
+          onChange={(event) => {
+            setLoginPassword(event.target.value);
+          }}
+        />
+
+        <button onClick={login}> Login</button>
+      </div>
+
+      <h4> User Logged In: </h4>
+      {user?.email}
+
+      <button onClick={logout}> Sign Out </button>
     </div>
-  )
+  );
 }
 
-export default Login
+export default App;
