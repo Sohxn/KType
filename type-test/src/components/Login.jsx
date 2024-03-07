@@ -4,10 +4,33 @@ import pattern from '../assets/vectors/backdrop_vector.svg'
 import {Link} from 'react-router-dom'
 import google from '../assets/icons/google.png'
 import {useState} from 'react'
+import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../firebase/auth'
+import { useAuth } from '../contexts/authContext'
 
 const Login = () => {
   //@vineet this is to set up Google authentication
+  const { userLoggedIn } = useAuth()
   const [GAuth, toggle_GAuth] = useState(0)
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    if(!isSigningIn) {
+        setIsSigningIn(true)
+        await doSignInWithEmailAndPassword(email, password)
+        // doSendEmailVerification()
+     }
+  }
+
+    const onGoogleSignIn = (e) => {
+        e.preventDefault()
+        if (!isSigningIn) {
+            setIsSigningIn(true)
+            doSignInWithGoogle().catch(err => {
+                setIsSigningIn(false)
+            })
+        }
+    }
+
 
   return (
     <div className='flex bg-black h-screen w-screen justify-center'>
