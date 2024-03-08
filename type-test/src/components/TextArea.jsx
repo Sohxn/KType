@@ -122,7 +122,7 @@ function proc_input(value) {
     const wordsEntered = value.trim().length;
     console.log(wordsEntered);
     setWordCount(previousWordCount => previousWordCount + wordsEntered);
-    //overlay rendering function call condition
+    //overlay rendering function call condition 
     
     if (activeIndex === data.length -1) {
       console.log("You've reached the last word!");
