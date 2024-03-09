@@ -37,10 +37,13 @@ def set_accur():
 def get_accuracy():
     global accuracy
     return jsonify({"accurracy":accuracy})
-    
+
+@app.route('/api/get_words_per_min')
+def get_words_per_min():
+    global words_per_min
+    return jsonify({"words_per_min":words_per_min})
 
 if __name__ == '__main__':
-    accuracy = 0
     app.run(host='0.0.0.0',port=8080 , debug=True)
     
 

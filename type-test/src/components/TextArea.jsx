@@ -115,8 +115,9 @@ const sendRequest = async (endpoint, method, data) => {
 //gets refreshed 
 //have to keep content
 
-
+let startTime = 0;
 function proc_input(value) {
+  //initialise speedHistory[]
   if (value.endsWith(' ')) {
     console.log('Input Value:', value); 
     const wordsEntered = value.trim().length;
@@ -126,6 +127,12 @@ function proc_input(value) {
     
     if (activeIndex === data.length -1) {
       console.log("You've reached the last word!");
+      const endTime = Date.now();
+      const elapsedTime = (endTime - startTime) / 1000; // Convert milliseconds to seconds
+
+      const speed = value.length / elapsedTime;
+
+      speedHistory.push(speed);
       // Handle the case when the last word is entered
       stopTimer();
       const wpm = wordsPerMinute(wordCount, seconds);
