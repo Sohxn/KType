@@ -3,10 +3,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 // import "./App.css";
-import { auth } from "./firebase-config";
+import { auth, googleProvider } from "./firebase-config";
 
 function App() {
   const [registerEmail, setRegisterEmail] = useState("");
@@ -44,6 +45,17 @@ function App() {
       console.log(error.message);
     }
   };
+  
+  const loginWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
 
   const logout = async () => {
     await signOut(auth);
@@ -78,6 +90,7 @@ function App() {
       {/* <h4> User Logged In: </h4>
       {user?.email} */}
 
+<button className="font-roboto border-2 border-black h-[7vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={loginWithGoogle}> Login with Google</button>
       <button className="font-roboto border-2 border-black h-[6vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={logout}> Sign Out </button>
     </div>
   </div>
