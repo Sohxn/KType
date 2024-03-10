@@ -9,6 +9,7 @@ import {
 // import "./App.css";
 import { auth, googleProvider } from "./firebase-config";
 
+
 function App() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");

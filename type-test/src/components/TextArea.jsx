@@ -27,7 +27,7 @@ const TextArea = () => {
 
 
   //wpm
-  const wordsPerMinute = (wordsEntered, totalSeconds) => wordsEntered / (totalSeconds / 60)
+  const wordsPerMinute = (wordsEntered, totalSeconds) => (wordsEntered * 60) / totalSeconds;
   //@vineet this is for the timer
   const [inp, setinp] = useState('')
 
@@ -62,7 +62,7 @@ const TextArea = () => {
     axios.get(`http://127.0.0.1:8080/api/data/${total_words}`)
       .then((response) => {
         setData(response.data);
-        setCounter(response.data.length); // Set counter based on the length of the fetched data
+        // setCounter(response.data.length); // Set counter based on the length of the fetched data
         console.log("Data refreshed");
       })
       .catch((error) => {
@@ -80,13 +80,13 @@ const TextArea = () => {
 const [activeIndex , setIndex] = useState(0)
 
 const curr_Accuracy = () => {
-  const overallAccuracy = (counter / data.length) * 100;
+  const overallAccuracy = (counter * 100) / data.length;
   console.log(overallAccuracy);
 };
 
 const incrementCounter = () => {
-  console.log(counter)
-  setCounter(counter - 1);
+  setCounter(counter + 1);
+  console.log("cpunter"+counter)
 };
 
 
@@ -139,9 +139,9 @@ function proc_input(value) {
       stopTimer();
       wpm = wordsPerMinute(wordCount, seconds);
       console.log('Words per minute:', wpm);
-      curr_accur = (counter / data.length) * 100;
+      curr_accur = (counter * 100) / data.length;
       const requestData = {
-        accur: (counter / data.length) * 100,
+        accur: (counter * 100) / data.length,
       };
 
       // Make an HTTP POST request using the sendRequest function with Axios
@@ -156,14 +156,15 @@ function proc_input(value) {
         });
         //open session result overlay
         handleOverlay();
-    }else if (value.trim() === data[activeIndex]) {
+    }else if (value.trim() === data[activeIndex] && value.trim() != " ") {
       console.log("equal");
+      incrementCounter();
       curr_Accuracy();
       setIndex(index => index + 1);
       setInput('');
     } else {
       console.log("wrong");
-      incrementCounter();
+      // incrementCounter();
       incorr.push(activeIndex);
       console.log(incorr)
       curr_Accuracy();
