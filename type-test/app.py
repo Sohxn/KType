@@ -17,6 +17,7 @@ def get_data(word_count):
     return jsonify(data)
 
 
+#hello
 @app.route('/api/new_accuracy', methods=['POST'])
 def set_accur():
     try:
