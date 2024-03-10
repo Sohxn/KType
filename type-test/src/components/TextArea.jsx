@@ -132,7 +132,7 @@ function proc_input(value) {
 
       const speed = value.length / elapsedTime;
 
-      speedHistory.push(speed);
+      // speedHistory.push(speed);
       // Handle the case when the last word is entered
       stopTimer();
       const wpm = wordsPerMinute(wordCount, seconds);
