@@ -15,7 +15,6 @@ function App() {
   const [loginPassword, setLoginPassword] = useState("");
 
   const [user, setUser] = useState({});
-
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
   });
@@ -51,48 +50,38 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <>
+  <div className="flex h-screen w-screen bg-black justify-center items-center">
+    <div className="flex h-[60vh] max-h-[80vh] grid grid-rows-5 bg-[#d8b4fe] p-5 lg:w-[20vw] md:w-[40vw] rounded-2xl justify-center">
+      <span className="flex font-roboto text-4xl">LOGIN</span>
       <div>
-        <h3> Register User </h3>
         <input
-          placeholder="Email..."
-          onChange={(event) => {
-            setRegisterEmail(event.target.value);
-          }}
-        />
-        <input
-          placeholder="Password..."
-          onChange={(event) => {
-            setRegisterPassword(event.target.value);
-          }}
-        />
-
-        <button onClick={register}> Create User</button>
-      </div>
-
-      <div>
-        <h3> Login </h3>
-        <input
-          placeholder="Email..."
+          className="bg-white rounded-md h-10 text-center"
+          placeholder="Email"
           onChange={(event) => {
             setLoginEmail(event.target.value);
           }}
         />
+      </div>
+      <div>
         <input
-          placeholder="Password..."
+          className="bg-white rounded-md h-10 text-center"
+          placeholder="Password"
           onChange={(event) => {
             setLoginPassword(event.target.value);
           }}
         />
-
-        <button onClick={login}> Login</button>
       </div>
+      
+      <button className="font-roboto border-2 border-black h-[7vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={login}> Login</button>
 
-      <h4> User Logged In: </h4>
-      {user?.email}
+      {/* <h4> User Logged In: </h4>
+      {user?.email} */}
 
-      <button onClick={logout}> Sign Out </button>
+      <button className="font-roboto border-2 border-black h-[6vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={logout}> Sign Out </button>
     </div>
+  </div>
+    </>
   );
 }
 
