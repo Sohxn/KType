@@ -213,7 +213,8 @@ function getWordClass(index) {
       <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(200)}>200</button>
     </div>
     <div className='flex w-screen grid grid-rows-5 h-fit'>
-        <div className='flex p-5 min-h-[5vh] min-w-[40vw] mx-auto max-w-[45vw] bg-[#746378] rounded-xl w-fit self-center text-white font-roboto text-[20px]'>
+        <div className='flex 
+        p-5 min-h-[5vh] min-w-[40vw] mx-auto max-w-[45vw] bg-[#c084fc] rounded-xl w-fit self-center text-white font-roboto text-[20px]'>
           {/* grid system to incorporate both the text area and the typing area inside the box */}
           <div className='flex grid grid-rows-2'>
           
@@ -259,7 +260,7 @@ function getWordClass(index) {
     </div>   
 </div>
 
-<div className='flex fixed w-screen h-20 justify-center bg-gray-800 p-2 rounded-[60px]'>
+<div className='flex ease-in-out duration-500 w-screen h-screen hover:bg-white z-100 hover:translate-y-[-92vh] justify-center bg-gray-800 p-2 rounded-[60px]'>
   <div className='flex grid grid-cols-5 text-black font-roboto h-[3vh] w-[40vw]'>
     <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg'>sidebar</button>
     <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg ml-2'>option2</button>
