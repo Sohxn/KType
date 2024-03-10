@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 // import "./App.css";
 import { auth, googleProvider } from "./firebase-config";
-
+import { Link } from 'react-router-dom';
 function App() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
@@ -64,7 +64,7 @@ function App() {
   return (
     <>
   <div className="flex h-screen w-screen bg-black justify-center items-center">
-    <div className="flex h-[60vh] max-h-[80vh] grid grid-rows-5 bg-[#d8b4fe] p-5 lg:w-[20vw] md:w-[40vw] rounded-2xl justify-center">
+    <div className="flex h-[60vh] max-h-[80vh] grid grid-rows-6 bg-[#d8b4fe] p-5 lg:w-[20vw] md:w-[40vw] rounded-2xl justify-center">
       <span className="flex font-roboto text-4xl">LOGIN</span>
       <div>
         <input
@@ -86,12 +86,13 @@ function App() {
       </div>
       
       <button className="font-roboto border-2 border-black h-[7vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={login}> Login</button>
-
       {/* <h4> User Logged In: </h4>
       {user?.email} */}
 
 <button className="font-roboto border-2 border-black h-[7vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={loginWithGoogle}> Login with Google</button>
       <button className="font-roboto border-2 border-black h-[6vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={logout}> Sign Out </button>
+      <button className="font-roboto text-black hover:text-white ease-in-out duration-300 mb-10 "><Link to="/create">Not registered? Sign In</Link></button>
+
     </div>
   </div>
     </>
