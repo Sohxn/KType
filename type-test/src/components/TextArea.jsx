@@ -7,8 +7,10 @@ import ResultOverlay from './ResultOverlay';
 
 //will not get refreshed every time hence global
 const incorr = []
-
+export let wpm = 0;
+export let curr_accur = 0;
 const TextArea = () => {
+
   const [data, setData] = useState([]);
   const [counter, setCounter] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -135,8 +137,9 @@ function proc_input(value) {
       // speedHistory.push(speed);
       // Handle the case when the last word is entered
       stopTimer();
-      const wpm = wordsPerMinute(wordCount, seconds);
+      wpm = wordsPerMinute(wordCount, seconds);
       console.log('Words per minute:', wpm);
+      curr_accur = (counter / data.length) * 100;
       const requestData = {
         accur: (counter / data.length) * 100,
       };

@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react'
 import '../App.css'
 import axios from 'axios'
 
+import { wpm } from './TextArea';
+import { curr_accur } from './TextArea';
+
 const ResultOverlay = (children) => {
   
     const [isOpen , setOpen] = useState(false)
@@ -24,31 +27,38 @@ const ResultOverlay = (children) => {
     const animationDuration = 450
     //this is the speed in wpm
     const [sessioncurrentSpeed, setsessionCurrentSpeed] = useState(0);
-    
+    // console.log("res"+wpm);
   
     const fetchData = () => {
-      axios.get('http://127.0.0.1:8080/api/get_accuracy')
-        .then((response) => {
-          setTargetSpeed(response.data.accurracy);
-          console.log(response.data.accurracy);
-          console.log("Data refreshed");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      // axios.get('http://127.0.0.1:8080/api/get_accuracy')
+      //   .then((response) => {
+      //     setTargetSpeed(response.data.accurracy);
+      //     console.log(response.data.accurracy);
+      //     console.log("Data refreshed");
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
+      setTargetSpeed(curr_accur);
+      console.log(curr_accur);
     };
 
     const fetchspeed = () => {
-      axios.get('http://127.0.0.1:8080/api/get_words_per_min')
-        .then((response) => {
-          setsessionCurrentSpeed(response.data.words_per_min);
-          console.log(response.data.words_per_min);
-          console.log("Data refreshed");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      // axios.get('http://127.0.0.1:8080/api/get_words_per_min')
+      //   .then((response) => {
+      //     setsessionCurrentSpeed(wpm);
+      //     console.log(response.data.words_per_min);
+      //     console.log("Data refreshed");
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
+      setsessionCurrentSpeed(wpm);
+      console.log(wpm);
     };
+
+
+
   
   
   
