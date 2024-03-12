@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from 'axios';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -29,6 +30,7 @@ function App() {
         registerPassword
       );
       console.log(user);
+      new_user(user?.email);
     } catch (error) {
       console.log(error.message);
     }
@@ -42,6 +44,7 @@ function App() {
         loginPassword
       );
       console.log(user);
+      new_user(user?.email);
     } catch (error) {
       console.log(error.message);
     }
@@ -52,6 +55,7 @@ function App() {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       console.log(user);
+      new_user(user?.email);
     } catch (error) {
       console.log(error.message);
     }
@@ -60,6 +64,46 @@ function App() {
 
   const logout = async () => {
     await signOut(auth);
+  };
+
+  const sendRequest = async (endpoint, method, data) => {
+    try {
+      console.log(`Sending ${method} request to ${endpoint}`);
+      
+      const response = await axios({
+        method: method,
+        url: endpoint,
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any other headers if needed
+        },
+        data: data,
+      });
+  
+      console.log('Response:', response.data);
+      
+      return response.data;
+    } catch (error) {
+      console.error('Error during request:', error);
+      throw error;
+    }
+  };
+
+  const new_user = async (userEmail) => {
+    // const userData = await getUserData();
+    const requestData = {
+      user : userEmail,
+    };
+    // Make an HTTP POST request using the sendRequest function with Axios
+    sendRequest('http://127.0.0.1:8080/api/new_user', 'post', requestData)
+      .then(data => {
+        // Handle the response data if needed
+        console.log('Response:', data);
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('Error during request:', error);
+      });
   };
 
   return (
@@ -88,8 +132,8 @@ function App() {
       
       <button className="font-roboto border-2 border-black h-[7vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={login}> Login</button>
 
-      {/* <h4> User Logged In: </h4>
-      {user?.email} */}
+       {/* <h4> User Logged In: </h4>
+      {user?.email}  */}
 
 <button className="font-roboto border-2 border-black h-[7vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={loginWithGoogle}> Login with Google</button>
       <button className="font-roboto border-2 border-black h-[6vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={logout}> Sign Out </button>
