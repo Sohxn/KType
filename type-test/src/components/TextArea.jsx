@@ -4,6 +4,8 @@ import '../App.css'
 import { useEffect} from 'react'
 import axios from 'axios';
 import ResultOverlay from './ResultOverlay';
+import {Link} from 'react-router-dom'
+
 
 //will not get refreshed every time hence global
 const incorr = []
@@ -260,16 +262,18 @@ function getWordClass(index) {
     </div>   
 </div>
 
-<div className='flex ease-in-out grid grid-rows-2 duration-500 w-screen h-screen hover:bg-white z-100 hover:translate-y-[-92vh] justify-center bg-gray-800 p-2 rounded-[60px]'>
-  <div className='flex grid-item grid grid-cols-5 text-black font-roboto h-[3vh] w-[40vw]'>
+<div className='flex ease-in-out grid grid-rows-2 duration-500 w-[50vw] ml-[24vw] h-screen hover:bg-white z-100 hover:translate-y-[-92vh] justify-center bg-gray-800 p-2 rounded-[60px]'>
+  <div className='flex grid grid-cols-5 text-black font-roboto h-[3vh] w-[40vw]'>
     <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg'>sidebar</button>
     <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg ml-2'>option2</button>
     <button className='grid-item text-sm bg-[#c4bbc7] hover:bg-white ease-in-out duration-500 rounded-lg ml-2' onClick={() => showKeyboard(!keyboard)}>layout</button>
     <button className='grid-item text-sm bg-[#e0dbe1] hover:bg-white ease-in-out duration-500 rounded-lg ml-2'>themes (beta)</button>
     <button className='grid-item text-sm bg-white rounded-lg ml-2'>modes (beta)</button>
   </div>
-  <div className='flex grid-item h-[70vh] w-[40vw] bg-[#c084fc] rounded-2xl'>
-
+  <div className='flex h-[20vh] w-[20vw] bg-[#c084fc] justify-center items-center rounded-2xl hover:bg-black ease-in-out duration-500'>
+      <div className='p-2 flex'>
+          <button className='text-white font-roboto text-4xl'><Link to="/jet">Play Minigame</Link></button>
+      </div>
   </div>
 
 </div>
