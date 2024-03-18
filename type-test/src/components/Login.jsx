@@ -135,8 +135,10 @@ function App() {
        {/* <h4> User Logged In: </h4>
       {user?.email}  */}
 
-<button className="font-roboto border-2 border-black h-[7vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={loginWithGoogle}> Login with Google</button>
+      <button className="font-roboto border-2 border-black h-[7vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={loginWithGoogle}> Login with Google</button>
       <button className="font-roboto border-2 border-black h-[6vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={logout}> Sign Out </button>
+      <button className="font-roboto text-black h-[6vh] pt-5 hover:text-white
+      ease-in-out duration-200">Create new account / sign up</button>
     </div>
   </div>
     </>

@@ -209,15 +209,16 @@ function getWordClass(index) {
   <div className='h-[200vh] w-screen'>
   <div className='h-[85vh] w-screen'>
     <div className='flex h-[6vh] w-screen mt-[10vh] justify-center'>
-      <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(10)}>10</button>
-      <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(50)}>50</button>
-      <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(100)}>100</button>
-      <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(150)}>150</button>
-      <button className='font-roboto text-white text-xl p-2' onClick={() => fetchData(200)}>200</button>
+      <button className='font-roboto text-white text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(10)}>10</button>
+      <button className='font-roboto text-white text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(50)}>50</button>
+      <button className='font-roboto text-white text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(100)}>100</button>
+      <button className='font-roboto text-white text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(150)}>150</button>
+      <button className='font-roboto text-white text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(200)}>200</button>
     </div>
     <div className='flex w-screen grid grid-rows-5 h-fit'>
         <div className='flex 
-        p-5 min-h-[5vh] min-w-[40vw] mx-auto max-w-[45vw] bg-[#c084fc] rounded-xl w-fit self-center text-white font-roboto text-[20px]'>
+        p-5 min-h-[5vh] min-w-[40vw] mx-auto max-w-[45vw] bg-[#c084fc] rounded-xl w-fit self-center text-white font-roboto text-[20px]
+        transition ease-in-out duration-500'>
           {/* grid system to incorporate both the text area and the typing area inside the box */}
           <div className='flex grid grid-rows-2'>
           
