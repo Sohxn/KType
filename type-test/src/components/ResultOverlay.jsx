@@ -84,7 +84,9 @@ const ResultOverlay = (children) => {
     }, [targetSpeed, animationDuration]);
 
   return (
-    <div className='fixed backdrop-blur-3xl font-roboto bg-transparent top-0 left-0 w-full h-full z-50 in-ease-out duration-300 bg-black ease-in-out'>
+    <div className='fixed backdrop-blur-2xl 
+    font-roboto top-0 left-0 w-full h-full z-20 
+    duration-500 ease-in-out'>
         <span className='flex text-white p-5'>press &nbsp; <span className='border-2 rounded-lg text-center'>&nbsp; ctrl + R &nbsp;</span> &nbsp;to type again</span>
         <div className='grid grid-cols-3 text-center mt-20 text-2xl text-white'>
             <div className='col-span-1'>speed: {sessioncurrentSpeed}</div>  

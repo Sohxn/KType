@@ -184,18 +184,18 @@ function proc_input(value) {
 //bug to be fixed
 function getWordClass(index) {
   if (index === activeIndex) {
-    return 'text-white-400'; // Highlight the active word
+    return 'text-white'; // Highlight the active word
   }
   else if(index < activeIndex) {
     if(incorr.includes(index)){
-      return 'text-red-400'
+      return 'text-orange'
     }
     else{
-      return 'text-green-300 text-bold'; // Highlight correctly typed words
+      return 'text-green text-bold'; // Highlight correctly typed words
     }
   } 
   else if(index > activeIndex){ //if the word hasnt been attempted yet 
-    return 'text-gray-900';
+    return 'text-gray-dark';
   }
 }
 
@@ -209,11 +209,11 @@ function getWordClass(index) {
   <div className='h-[200vh] w-screen'>
   <div className='h-[85vh] w-screen'>
     <div className='flex h-[6vh] w-screen mt-[10vh] justify-center'>
-      <button className='font-roboto text-white text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(10)}>10</button>
-      <button className='font-roboto text-white text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(50)}>50</button>
-      <button className='font-roboto text-white text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(100)}>100</button>
-      <button className='font-roboto text-white text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(150)}>150</button>
-      <button className='font-roboto text-white text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(200)}>200</button>
+      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(10)}>10</button>
+      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(50)}>50</button>
+      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(100)}>100</button>
+      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(150)}>150</button>
+      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(200)}>200</button>
     </div>
     <div className='flex w-screen grid grid-rows-5 h-fit'>
         <div className='flex 
@@ -237,12 +237,12 @@ function getWordClass(index) {
           <div className='grid-item h-fit p-2 mt-2'>
               {/*typing box*/}
             <div className='flex justify-center'>
-              <div className='flex w-fit h-fit rounded-xl border-none outline-none self-center text-white font-roboto text-2xl'>
+              <div className='flex w-fit h-fit rounded-xl border-none outline-none self-center text-white font-roboto text-xl'>
                 <input autoFocus type="text" 
                         value={input} 
                         onChange={(e) => {proc_input(e.target.value)
                                           trigger_timer(e.target.value)}} 
-                        className='text-white bg-transparent self-center focus:border-white rounded-xl'/>
+                        className='text-purple p-2 bg-transparent self-center focus:border-white rounded-xl'/>
               </div>
             </div>
           </div>
@@ -264,7 +264,7 @@ function getWordClass(index) {
     </div>   
 </div>
 
-<div className='flex ease-in-out grid grid-rows-2 duration-500 w-[50vw] ml-[24vw] h-screen hover:bg-white z-100 hover:translate-y-[-92vh] justify-center bg-gray-800 p-2 rounded-[60px]'>
+<div className='flex ease-in-out border-2 border-white shadow-[0px_0px_90px_2px_#d6bcfa] hover:border-white grid grid-rows-2 duration-500 w-[50vw] ml-[24vw] h-screen backdrop-blur-2xl z-100 hover:translate-y-[-92vh] justify-center bg-transparent p-2 rounded-[60px]'>
   <div className='flex grid grid-cols-5 text-black font-roboto h-[3vh] w-[40vw]'>
     <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg'>sidebar</button>
     <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg ml-2'>option2</button>

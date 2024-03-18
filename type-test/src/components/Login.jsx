@@ -109,9 +109,10 @@ function App() {
   return (
     <>
   <div className="flex h-screen w-screen bg-black justify-center items-center">
-    <div className="flex h-[60vh] max-h-[80vh] grid grid-rows-5 bg-[#d8b4fe] p-5 lg:w-[20vw] md:w-[40vw] rounded-2xl justify-center">
-      <span className="flex font-roboto text-4xl">LOGIN</span>
-      <div>
+    <div className="flex h-[60vh] max-h-[80vh] grid grid-rows-5 bg-[#d8b4fe] shadow-[0px_0px_117px_15px_#d6bcfa] 
+    p-5 lg:w-[20vw] md:w-[40vw] rounded-2xl justify-center items-center">
+      <span className="flex font-roboto text-4xl justify-center">LOGIN</span>
+      <div className="flex justify-center">
         <input
           className="bg-white rounded-md h-10 text-center"
           placeholder="Email"
@@ -120,7 +121,7 @@ function App() {
           }}
         />
       </div>
-      <div>
+      <div className="flex justify-center">
         <input
           className="bg-white rounded-md h-10 text-center"
           placeholder="Password"
