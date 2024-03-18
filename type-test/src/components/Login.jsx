@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from 'axios';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -8,7 +9,8 @@ import {
 } from "firebase/auth";
 // import "./App.css";
 import { auth, googleProvider } from "./firebase-config";
-import { Link } from 'react-router-dom';
+
+
 function App() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
@@ -28,6 +30,7 @@ function App() {
         registerPassword
       );
       console.log(user);
+      new_user(user?.email);
     } catch (error) {
       console.log(error.message);
     }
@@ -41,6 +44,7 @@ function App() {
         loginPassword
       );
       console.log(user);
+      new_user(user?.email);
     } catch (error) {
       console.log(error.message);
     }
@@ -51,6 +55,7 @@ function App() {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       console.log(user);
+      new_user(user?.email);
     } catch (error) {
       console.log(error.message);
     }
@@ -61,10 +66,50 @@ function App() {
     await signOut(auth);
   };
 
+  const sendRequest = async (endpoint, method, data) => {
+    try {
+      console.log(`Sending ${method} request to ${endpoint}`);
+      
+      const response = await axios({
+        method: method,
+        url: endpoint,
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any other headers if needed
+        },
+        data: data,
+      });
+  
+      console.log('Response:', response.data);
+      
+      return response.data;
+    } catch (error) {
+      console.error('Error during request:', error);
+      throw error;
+    }
+  };
+
+  const new_user = async (userEmail) => {
+    // const userData = await getUserData();
+    const requestData = {
+      user : userEmail,
+    };
+    // Make an HTTP POST request using the sendRequest function with Axios
+    sendRequest('http://127.0.0.1:8080/api/new_user', 'post', requestData)
+      .then(data => {
+        // Handle the response data if needed
+        console.log('Response:', data);
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('Error during request:', error);
+      });
+  };
+
   return (
     <>
   <div className="flex h-screen w-screen bg-black justify-center items-center">
-    <div className="flex h-[60vh] max-h-[80vh] grid grid-rows-6 bg-[#d8b4fe] p-5 lg:w-[20vw] md:w-[40vw] rounded-2xl justify-center">
+    <div className="flex h-[60vh] max-h-[80vh] grid grid-rows-5 bg-[#d8b4fe] p-5 lg:w-[20vw] md:w-[40vw] rounded-2xl justify-center">
       <span className="flex font-roboto text-4xl">LOGIN</span>
       <div>
         <input
@@ -86,13 +131,12 @@ function App() {
       </div>
       
       <button className="font-roboto border-2 border-black h-[7vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={login}> Login</button>
-      {/* <h4> User Logged In: </h4>
-      {user?.email} */}
+
+       {/* <h4> User Logged In: </h4>
+      {user?.email}  */}
 
 <button className="font-roboto border-2 border-black h-[7vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={loginWithGoogle}> Login with Google</button>
       <button className="font-roboto border-2 border-black h-[6vh] rounded-2xl hover:bg-white ease-in-out duration-500" onClick={logout}> Sign Out </button>
-      <button className="font-roboto text-black hover:text-white ease-in-out duration-300 mb-10 "><Link to="/create">Not registered? Sign In</Link></button>
-
     </div>
   </div>
     </>
