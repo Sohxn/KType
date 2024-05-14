@@ -88,7 +88,7 @@ const curr_Accuracy = () => {
 
 const incrementCounter = () => {
   setCounter(counter + 1);
-  console.log("cpunter"+counter)
+  console.log("counter"+counter)
 };
 
 

@@ -1,8 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import '../App.css'
-import axios from 'axios'
-
 import { wpm } from './TextArea';
 import { curr_accur } from './TextArea';
 
@@ -38,10 +36,14 @@ const ResultOverlay = (children) => {
       setsessionCurrentSpeed(wpm);
       console.log(wpm);
     };
-  
+
     useEffect(() => {
       fetchData();
       fetchspeed();
+  }, []);
+  
+    useEffect(() => {
+      
       let startTime;
       const animate = (timestamp) => {
         if (!startTime) startTime = timestamp;
