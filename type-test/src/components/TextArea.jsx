@@ -264,21 +264,29 @@ function getWordClass(index) {
     </div>   
 </div>
 
-<div className='flex ease-in-out border-2 border-white shadow-[0px_0px_90px_2px_#d6bcfa] hover:border-white grid grid-rows-2 duration-500 w-[50vw] ml-[24vw] h-screen backdrop-blur-2xl z-100 hover:translate-y-[-92vh] justify-center bg-transparent p-2 rounded-[60px]'>
-  <div className='flex grid grid-cols-5 text-black font-roboto h-[3vh] w-[40vw]'>
-    <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg'>sidebar</button>
-    <button className='grid-item text-sm bg-[#b2a6b6] hover:bg-white ease-in-out duration-500 rounded-lg ml-2'>option2</button>
-    <button className='grid-item text-sm bg-[#c4bbc7] hover:bg-white ease-in-out duration-500 rounded-lg ml-2' onClick={() => showKeyboard(!keyboard)}>layout</button>
-    <button className='grid-item text-sm bg-[#e0dbe1] hover:bg-white ease-in-out duration-500 rounded-lg ml-2'>themes (beta)</button>
-    <button className='grid-item text-sm bg-white rounded-lg ml-2'>modes (beta)</button>
-  </div>
-  <div className='flex h-[20vh] w-[20vw] bg-[#c084fc] justify-center items-center rounded-2xl hover:bg-black ease-in-out duration-500'>
-      <div className='p-2 flex'>
-          <button className='text-white font-roboto text-4xl'><Link to="/jet">Play Minigame</Link></button>
+  <div className='ease-in-out border-white border-2 
+  shadow-[0px_0px_90px_2px_#d6bcfa] duration-500 
+  w-[50vw] 
+  ml-[25vw] 
+  h-[94vh] 
+  backdrop-blur-3xl z-100
+  hover:translate-y-[-92vh] bg-transparent
+  p-[20px] 
+  rounded-[35px]'>
+    <span className='flex h-[10vh] w-full justify-center font-roboto text-white text-2xl top-0'>MODES</span>
+    <div className='row flex-col h-[70vh] w-full rows-2 justify-center'>
+      <div className='columns-3 w-full gap-8 justify-center font-roboto text-black text-xl'>
+        <button className='mb-6 bg-white h-[20vh] w-full rounded-[25px] bg-pink'></button>
+        <button className='mb-6 bg-white h-[50vh] w-full rounded-[25px] bg-yellow'></button>
+        <button className='mb-6 bg-white h-[35vh] w-full rounded-[25px] bg-orange'></button> 
+        <button className='mb-6 bg-white h-[35vh] w-full rounded-[25px] bg-blue'></button>
+        <button className='mb-6 bg-white h-[50vh] w-full rounded-[25px] bg-green'></button>
+        <button className='mb-6 bg-white h-[20vh] w-full rounded-[25px] bg-white'><Link to="/JET">JET</Link></button>     
       </div>
-  </div>
+      
+    </div>
 
-</div>
+  </div>
 </div>
 </>
   )

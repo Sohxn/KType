@@ -109,7 +109,7 @@ function App() {
   return (
     <>
   <div className="flex h-screen w-screen bg-black justify-center items-center">
-    <div className="flex h-[60vh] max-h-[80vh] grid grid-rows-5 bg-[#d8b4fe] shadow-[0px_0px_117px_15px_#d6bcfa] 
+    <div className="flex h-[60vh] max-h-[80vh] grid grid-rows-5 bg-[#d8b4fe] shadow-[0px_0px_200px_10px_#d6bcfa] 
     p-5 lg:w-[20vw] md:w-[40vw] rounded-2xl justify-center items-center">
       <span className="flex font-roboto text-4xl justify-center">LOGIN</span>
       <div className="flex justify-center">
