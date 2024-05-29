@@ -1,16 +1,25 @@
 import React from 'react'
 import '../App.css'
-import prof from '../assets/icons/prf.svg'
-import set from '../assets/icons/set.svg'
-import tr from '../assets/icons/TRicon.png'
-import cbp from '../assets/icons/prf.png'
+import cbp from '../assets/icons/pfp.jpg'
 import { useState, useEffect } from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import { useAuth } from './auth/AuthContext'
+import { signOut} from 'firebase/auth'
+import {auth} from './firebase-config'
 
 
 const Nav = () => {
 
   const [sbopen, setsbopen] = useState(false)
+  const {user} = useAuth()
+  //user state var can be used to access the logged in users attributes 
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut(auth); // Sign out the user
+    navigate('/login'); // Redirect to login page
+    setsbopen(!sbopen);
+  };
 
   const sbtoggle = () =>
   {
@@ -22,9 +31,6 @@ const Nav = () => {
     const HandleKeyDown = (event) => {
       if(sbopen && event.key === 'Escape'){
         sbtoggle() 
-      }
-      if(!sbopen && event.key === 'Shift'){
-        sbtoggle()
       }
     }
 
@@ -48,7 +54,10 @@ const Nav = () => {
           ) : (
             <>  
             <button className="rounded-full h-12 w-12 border-4 border-blue-300 ease-in-out duration-500">
+              {user ? <img src={cbp} className='rounded-full' onClick={sbtoggle}/>
+              :
               <img src={cbp} className='rounded-full' onClick={sbtoggle}/>
+              }
             </button>
             </>
             )}
@@ -58,21 +67,30 @@ const Nav = () => {
           }`}>
           {/*parent div of sidebar elements*/}
           <div className='font-roboto'>
-              <div className='text-4xl mb-[5vh] text-center'><span>NAME</span></div>
+              {user ? <div className='text-2xl mb-[5vh] text-center'><span>LVL 0</span></div>
+              :
+              <div className='text-4xl mb-[5vh] text-center'><span>Guest</span></div>
+              }
+
               <ul className='mb-[75vh]'>
                 <li className='flex justify-center'>
                   <button onClick={sbtoggle} className='min-w-[10vw]'><Link to="/dashboard"><div className='hover:bg-white hover:text-black ease-in-out duration-500 border-2 rounded-2xl p-4 border-white text-center mb-[3vh]'>DASH</div></Link></button>
                 </li>
-                <li className='flex justify-center'>
-                <button onClick={sbtoggle} className='min-w-[10vw]'><Link to="/login"><div className='hover:bg-white hover:text-black ease-in-out duration-500 border-2 rounded-2xl p-4 text-center border-white mb-[3vh]'>LOGIN / SIGNUP</div></Link></button>
-                </li>
+                {user ?
+                  <li className='flex justify-center'>
+                  <button onClick={handleLogout} className='min-w-[10vw]'><div className='hover:bg-red hover:text-white ease-in-out duration-500 border-2 rounded-2xl p-4 text-center border-white mb-[3vh]'>LOGOUT</div></button>
+                  </li>
+                  :
+                  <li className='flex justify-center'>
+                  <button onClick={sbtoggle} className='min-w-[10vw]'><Link to="/login"><div className='hover:bg-white hover:text-black ease-in-out duration-500 border-2 rounded-2xl p-4 text-center border-white mb-[3vh]'>LOGIN / SIGNUP</div></Link></button>
+                  </li>
+                }
                 <li className='flex justify-center'>
                 <button onClick={sbtoggle} className='min-w-[10vw]'><Link to="/"><div className='hover:bg-white hover:text-black ease-in-out duration-500 border-2 rounded-2xl p-4 text-center border-white mb-[3vh]'>TYPE</div></Link></button>
                 </li>
+                
               </ul>
-              {/* <div>
-                  PRESS <span className='border-2 rounded-md p-1'>ESC</span> TO CLOSE
-              </div> */}
+              
           </div>
           </div>
         </div>
@@ -82,4 +100,3 @@ const Nav = () => {
 }
 
 export default Nav
-/*shadow-[0px_0px_50px_4px_#2d3748]*/

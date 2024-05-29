@@ -12,7 +12,6 @@ const incorr = []
 export let wpm = 0;
 export let curr_accur = 0;
 const TextArea = () => {
-
   const [data, setData] = useState([]);
   const [counter, setCounter] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -28,9 +27,6 @@ const TextArea = () => {
   }
 
 
-  //wpm
-  const wordsPerMinute = (wordsEntered, totalSeconds) => (wordsEntered * 60) / totalSeconds;
-  //@vineet this is for the timer
   const [inp, setinp] = useState('')
 
   const trigger_timer = (val) =>{
@@ -79,7 +75,8 @@ const TextArea = () => {
   useEffect(() => {fetchData(10);}, []);
 
  const [input , setInput] = useState('') //im using this for the timer as well
-const [activeIndex , setIndex] = useState(0)
+ const [activeIndex , setIndex] = useState(0)
+//calculating individual characters
 
 const curr_Accuracy = () => {
   const overallAccuracy = (counter * 100) / data.length;
@@ -115,39 +112,65 @@ const sendRequest = async (endpoint, method, data) => {
   }
 };
 
-//incorrect word indices list
-//gets refreshed 
-//have to keep content
 
-let startTime = 0;
+const [startTime, setStartTime] = useState(0);
+//replaced Date.now() to performance.now()
 function proc_input(value) {
-  //initialise speedHistory[]
+  if(activeIndex === 0){
+    setStartTime(performance.now());
+  }
+ 
   if (value.endsWith(' ')) {
     console.log('Input Value:', value); 
-    const wordsEntered = value.trim().length;
-    console.log(wordsEntered);
+    const wordsEntered = 1;
     setWordCount(previousWordCount => previousWordCount + wordsEntered);
     //overlay rendering function call condition 
     
     if (activeIndex === data.length -1) {
+      //forgot about this case 
+      if(value.trim() === data[activeIndex]){
+        incrementCounter();
+      }
+      
       console.log("You've reached the last word!");
-      const endTime = Date.now();
+      
+      //time calculation here
+
+      const endTime = performance.now();
+      console.log("len",data.length);
+      console.log("len-1", data.length-1)
+      console.log(startTime)
+      console.log(endTime)
+      console.log("wordcount: ",wordCount)
       const elapsedTime = (endTime - startTime) / 1000; // Convert milliseconds to seconds
 
-      const speed = value.length / elapsedTime;
+      // Corrected WPM calculation: divide words by elapsed time and multiply by 60
+      const tempwpm = (wordCount / elapsedTime) * 60; 
+      wpm = Math.ceil(tempwpm);
+      console.log("typing speed: ", wpm)
 
-      // speedHistory.push(speed);
-      // Handle the case when the last word is entered
-      stopTimer();
-      wpm = wordsPerMinute(wordCount, seconds);
-      console.log('Words per minute:', wpm);
       curr_accur = (counter * 100) / data.length;
-      const requestData = {
+
+      //data preparation for sending via HTTP POST request
+      const accuracyData = {
         accur: (counter * 100) / data.length,
       };
 
-      // Make an HTTP POST request using the sendRequest function with Axios
-      sendRequest('http://127.0.0.1:8080/api/new_accuracy', 'post', requestData)
+      const speedData = {
+        wpm: wpm,
+      }
+
+      //HTTP POST request to send speed data
+      sendRequest('http://127.0.0.1:8080/api/new_speed', 'post', speedData)
+        .then(data => {
+          console.log('Response:', data)
+        })
+        .catch(error => {
+          console.error('Error during request:', error)
+        })
+
+      //HTTP POST request to send accuracy data
+      sendRequest('http://127.0.0.1:8080/api/new_accuracy', 'post', accuracyData)
         .then(data => {
           // Handle the response data if needed
           console.log('Response:', data);
@@ -158,7 +181,7 @@ function proc_input(value) {
         });
         //open session result overlay
         handleOverlay();
-    }else if (value.trim() === data[activeIndex] && value.trim() != " ") {
+    }else if(value.trim() === data[activeIndex] && value.trim() != " ") {
       console.log("equal");
       incrementCounter();
       curr_Accuracy();

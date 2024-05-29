@@ -6,16 +6,7 @@ import { curr_accur } from './TextArea';
 
 const ResultOverlay = (children) => {
   
-    const [isOpen , setOpen] = useState(false)
-    
-    //functions to open and close the session result overlay
-    const overlayopen = () => {
-        setOpen(true)
-    }
-
-    const overlayclose = () => {
-        setOpen(false)
-    }
+    const [isOpen , setOpen] = useState(false);
 
 
     //this is for the accuracy
@@ -30,6 +21,7 @@ const ResultOverlay = (children) => {
     const fetchData = () => {
       setTargetSpeed(curr_accur);
       console.log(curr_accur);
+      console.log("fetched")
     };
 
     const fetchspeed = () => {
@@ -76,3 +68,5 @@ const ResultOverlay = (children) => {
 }
 
 export default ResultOverlay
+
+
