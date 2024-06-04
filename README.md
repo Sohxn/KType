@@ -1,8 +1,8 @@
 
 # TypeRabbit
 
-A touch-typing practice website - with additional resources.
-
+A touch-typing practice website - with additional resources ;)
+coming soon !
 
 
 
