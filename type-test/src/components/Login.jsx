@@ -8,6 +8,8 @@ import {
 } from "firebase/auth";
 import {auth, googleProvider} from './firebase-config'
 import { useAuth } from "./auth/AuthContext";
+//animations
+import {motion} from "framer-motion"
 
 
 const Login = () => {
@@ -19,9 +21,9 @@ const Login = () => {
   //switch states
   const [viewLogin, setViewLogin] = useState("true"); //initially the login page would appear 
   const [userName, setUserName] = useState("");
-
   const { user, setUser } = useAuth()
   const navigate = useNavigate()
+
 
    //login -> register /  register -> login
    const ToggleViewState = () =>{
@@ -134,7 +136,10 @@ const Login = () => {
 
   return (
     <div className="flex h-screen w-screen bg-black justify-center items-center ease-in-out duration-500">
-      <div className="flex h-[60vh] max-h-[80vh] grid grid-rows-2 bg-[#d8b4fe] shadow-[0px_0px_200px_10px_#d6bcfa] p-5 lg:w-[20vw] md:w-[40vw] rounded-2xl justify-center items-center">
+      <motion.div 
+      initial={{x: 200}}
+      animate={{x: 0}} 
+      className="flex h-[60vh] max-h-[80vh] grid grid-rows-2 bg-[#d8b4fe] shadow-[0px_0px_200px_10px_#d6bcfa] p-5 lg:w-[20vw] md:w-[40vw] rounded-2xl justify-center items-center">
         {/* conditional rendering of error message */}
         
         <span className="flex font-roboto text-4xl justify-center">{viewLogin ? "LOGIN" : "REGISTER"}</span>
@@ -212,7 +217,7 @@ const Login = () => {
           <button className="flex font-roboto text-black h-[6vh] justify-center pt-8 mb-10 hover:text-white ease-in-out duration-200" 
           onClick={ToggleViewState}>{viewLogin ? "Don't have an account? Register" : "Already have an account? Login"}</button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

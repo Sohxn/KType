@@ -5,12 +5,14 @@ import { useEffect} from 'react'
 import axios from 'axios';
 import ResultOverlay from './ResultOverlay';
 import {Link} from 'react-router-dom'
+import { useAuth } from './auth/AuthContext';
 
 
 //will not get refreshed every time hence global
 const incorr = []
 export let wpm = 0;
 export let curr_accur = 0;
+
 const TextArea = () => {
   const [data, setData] = useState([]);
   const [counter, setCounter] = useState(0);
@@ -18,6 +20,9 @@ const TextArea = () => {
   const [intervalId, setIntervalId] = useState(null);
   const [wordCount, setWordCount] = useState(0);
   const [keyboard, showKeyboard] = useState(false)
+
+  //auth
+  const {user} = useAuth()
 
   //result overlay
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
@@ -151,16 +156,14 @@ function proc_input(value) {
 
       curr_accur = (counter * 100) / data.length;
 
-      //data preparation for sending via HTTP POST request
-      const accuracyData = {
-        accur: (counter * 100) / data.length,
-      };
 
-      const speedData = {
-        wpm: wpm,
-      }
 
       //HTTP POST request to send speed data
+      const update_speed = async () => {
+        const speedData = {
+          wpm: wpm,
+          email: user?.email,
+        }
       sendRequest('http://127.0.0.1:8080/api/new_speed', 'post', speedData)
         .then(data => {
           console.log('Response:', data)
@@ -168,8 +171,16 @@ function proc_input(value) {
         .catch(error => {
           console.error('Error during request:', error)
         })
+      }
+
+
 
       //HTTP POST request to send accuracy data
+      const update_accuracy = async () => {
+        const accuracyData = {
+          accur: (counter * 100) / data.length,
+          user: user?.email,
+        };
       sendRequest('http://127.0.0.1:8080/api/new_accuracy', 'post', accuracyData)
         .then(data => {
           // Handle the response data if needed
@@ -179,8 +190,15 @@ function proc_input(value) {
           // Handle errors
           console.error('Error during request:', error);
         });
-        //open session result overlay
+      }
+        //open session result overlay and update speed, accuracy data
         handleOverlay();
+        //update the database only if the user is logged in ofc
+        if(user){
+          update_speed();
+          update_accuracy();
+        }
+        
     }else if(value.trim() === data[activeIndex] && value.trim() != " ") {
       console.log("equal");
       incrementCounter();
@@ -239,8 +257,8 @@ function getWordClass(index) {
       <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(200)}>200</button>
     </div>
     <div className='flex w-screen grid grid-rows-5 h-fit'>
-        <div className='flex 
-        p-5 min-h-[5vh] min-w-[40vw] mx-auto max-w-[45vw] bg-[#c084fc] rounded-xl w-fit self-center text-white font-roboto text-[20px]
+        <div className=' 
+        p-5 min-h-[5vh] max-h-[70vh] min-w-[40vw] mx-auto max-w-[45vw] bg-[#c084fc] rounded-xl w-fit self-center text-white font-roboto text-[20px]
         transition ease-in-out duration-500'>
           {/* grid system to incorporate both the text area and the typing area inside the box */}
           <div className='flex grid grid-rows-2'>
@@ -257,7 +275,7 @@ function getWordClass(index) {
               ))}
             </div>
 
-          <div className='grid-item h-fit p-2 mt-2'>
+          <div className='grid-item h-fit p-2 mt-5'>
               {/*typing box*/}
             <div className='flex justify-center'>
               <div className='flex w-fit h-fit rounded-xl border-none outline-none self-center text-white font-roboto text-xl'>
@@ -265,7 +283,7 @@ function getWordClass(index) {
                         value={input} 
                         onChange={(e) => {proc_input(e.target.value)
                                           trigger_timer(e.target.value)}} 
-                        className='text-purple p-2 bg-transparent self-center focus:border-white rounded-xl'/>
+                        className='text-white p-2 bg-[#c084fc] self-center rounded-xl'/>
               </div>
             </div>
           </div>

@@ -1,71 +1,89 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'; 
-// import {themes} from './themes.js'
+import { useAuth } from './auth/AuthContext'
 
 const Dash = () => {
-
-  const [rankOpen, setrankOpen] = useState(false)
+  
+  const {user} = useAuth()
   const [currentSpeed, setCurrentSpeed] = useState(0);
   const [targetSpeed, setTargetSpeed] = useState(0);
-  const animationDuration = 450
-  
+  const [accuracy, setAccuracy] = useState(0);
+  const [curr_accuracy, setCurrAccuracy] = useState(0)
+  const duration = 500
 
-  const fetchData = () => {
-    axios.get('http://127.0.0.1:8080/api/get_accuracy')
+
+  const usermail = user? user.email : ''
+ 
+
+
+
+  //custom endpoint for recieving average users  tats
+  const fetchData = (usr) => {
+    axios.get(`http://127.0.0.1:8080/api/stats/${usr}`)
       .then((response) => {
-        setTargetSpeed(response.data.accurracy);
-        console.log(response.data.accurracy);
-        console.log("Data refreshed");
+        console.log("DASH.JSX")
+        console.log("speed:",response.data['speed'])
+        console.log("accuracy: ", response.data['accuracy'])
+        setTargetSpeed(response.data['speed'])
+        setAccuracy(response.data['accuracy'])
       })
       .catch((error) => {
-        console.error(error);
+        console.error("ERROR",error);
       });
   };
+
+   
 
 
 
   useEffect(() => {
-    fetchData();
+    
+    if(user){
+      console.log("Fetching data using fetchData fx")
+      fetchData(usermail);
+      console.log("fx called.")
+    }
+
     let startTime;
     const animate = (timestamp) => {
       if (!startTime) startTime = timestamp;
 
-      const progress = Math.min(1, (timestamp - startTime) / animationDuration);
-
-      setCurrentSpeed(Math.floor(progress * targetSpeed));
-
+      const progress = Math.min(1, (timestamp - startTime) / duration)
+      
+      if(targetSpeed !== undefined && accuracy !== undefined){
+        setCurrentSpeed(Math.floor(progress * targetSpeed));
+        setCurrAccuracy(Math.floor(progress * accuracy));
+      }
+      console.log(currentSpeed)
       if (progress < 1) {
         requestAnimationFrame(animate);
+        console.log(currentSpeed)
       }
     };
-
     requestAnimationFrame(animate);
 
     return () => cancelAnimationFrame(animate);
-  }, [targetSpeed, animationDuration]);
+  }, [targetSpeed, duration, usermail]);
   
-  const openRanks = () =>
-  {
-    setrankOpen(!rankOpen)
-  }
+
 
   return (
    <>
     <div className='flex h-screen w-screen justify-center'>
-    <span className='font-roboto text-white mt-[10vh] ml-[-5vw]'>Stats</span>
+    <span className='font-roboto text-white mt-[9vh] ml-[-5vw] text-xl'>Stats</span>
       {/* div with imaginary border that was pre calculated lmao */}
       <div className='w-[60vw] h-[75vh] m-[10vw] mt-[15vh] rounded-3xl'>
         {/*Masonry layout*/}
         <div className="grid grid-cols-3 gap-10 p-4"  style={{ gridTemplateRows: 'auto auto' }}>
           <div className="grid-item flex items-center border-2 h-[35vh] rounded-[35px] text-white bg-purple-400 border-purple-400 justify-center">
-            <span className='text-[10vh] font-roboto'>
-              {currentSpeed}<span className='text-[5vh]'> wpm</span>
+            <span className='text-[9vh] font-roboto'>
+            {currentSpeed}<span className='text-[3vh]'> wpm</span>
             </span>
           </div>
           <div className="grid-item h-[35vh] rounded-[35px] gap-8 text-white" style={{ display: 'grid', gridTemplateRows: '1fr 1fr' }}>
             <div className='row-item flex border-2 rounded-[35px] border-[#e9d5ff] bg-[#e9d5ff] justify-center items-center'>
-              <span className='font-roboto text-[3vh] text-black'>Accuracy</span></div>
+              <span className='font-roboto text-[3vh] text-black'>{curr_accuracy}</span><span className='text-black text-[2vh]'>%</span></div>
             <div className='row-item border-2 rounded-[35px] border-[#B3B7EE] bg-[#B3B7EE]'></div>
           </div>
 

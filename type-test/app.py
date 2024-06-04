@@ -2,6 +2,7 @@ from flask import Flask,request, jsonify
 from flask_cors import CORS
 from essential_generators import DocumentGenerator
 import re
+import math
 from flask_pymongo import PyMongo
 from datetime import datetime
 # pip install essential-generators (comand to install)
@@ -27,36 +28,78 @@ def get_data(word_count):
         data = raw.split()
         if(len(data)>=word_count):
             return jsonify(data[:word_count])
+        
 
 
-#hello
-@app.route('/api/new_accuracy', methods=['POST'])
-def set_accur():
+#obtain the current wpm
+#obtain the average wpm from database
+#calculate the new average
+#push it into the database
+@app.route('/api/new_speed', methods=['POST'])
+def update_speed():
     try:
-        global accuracy
-        # Get the JSON data from the request
+        print("SPEED UPDATE COMMAND")
         data = request.get_json()
-        # Assuming the data has a key 'accur'
-        accuracy = data.get('accur')
-        response_data = {'status': 'success', 'message': 'Data received successfully'}
-        return jsonify(response_data), 200
+        usremail = data.get('email')
+        curr_sp = data.get('wpm')
+        profiles.update_one(
+            {'email': usremail},
+            {'$inc': {'sessions': 1}}
+        )
+        #calculation
+        record = profiles.find_one({'email': usremail})
+        sp = record['total_speed'] #this is the avg speed of sesh sessions
+        sesh = record['sessions']
+        temp = (sp + curr_sp)/sesh
+        new_avg = math.ceil(temp)
+        #updation
+        profiles.update_one(
+            {'email': usremail},
+            {'$set': {'avg_speed': new_avg}}
+        )
+        profiles.update_one(
+            {'email': usremail},
+            {'$inc': {'total_speed': curr_sp}}
+        )
+        response_data = {'status':'success', 'message': 'speed updated successfully'}
+        return jsonify(data)
+
     except Exception as e:
-        # Handle any exceptions that might occur during processing
         error_message = str(e)
         response_data = {'status': 'error', 'message': error_message}
         return jsonify(response_data), 500
 
-@app.route('/api/get_accuracy')
-def get_accuracy():
-    global accuracy
-    return jsonify({"accurracy":accuracy})
+@app.route('/api/new_accuracy', methods=['POST'])
+def update_accuracy():
+    print("ACCURACY UPDATE COMMAND")
+    data = request.get_json()
+    return jsonify(data)
 
-@app.route('/api/get_words_per_min')
-def get_words_per_min():
-    global words_per_min
-    return jsonify({"words_per_min":words_per_min})
+#fetch speed and accuracy from database
+#send both speed and accuracy data to dashboard
+#similar implementation to wordcount
+@app.route('/api/stats/<email>')
+def stats(email):
+    try:
+        record = profiles.find_one(
+            {'email': email},
+        )
+        if record:
+            speed = record['avg_speed']
+            acc = record['accuracy']
+            print("APP.PY")
+            print(speed)
+            print(acc)
+            return jsonify({
+                'speed': speed,
+                'accuracy': acc,
+            })
+        else:
+            return jsonify({'status': 'error', 'message': 'User does not exist'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
 
-
+#creation of a new record in the database collection
 @app.route('/api/new_user', methods=['POST'])
 def new_user():
     try:
@@ -80,10 +123,18 @@ def new_user():
                     "email": useremail,
                     "username": username,
                     "DOJ": datetime.utcnow(),
+                    "sessions": 0, #to be incremented by 1 
                     "lvl": 0,
                     "xp": 0,
-                    "speed": 0,
-                    "accuracy": 100
+                    "avg_speed": 0,
+                    "total_speed": 0,
+                    "accuracy": 100,
+                    "consistency": 100,
+                    "session_speed": [],
+                    "all_sessions": [],
+                    "reaction_time_shooting": 0,
+                    "HBL ratio": [0,0,0],
+                    "high_score_jet": 0 
                 }
                 profiles.insert_one(new_user_data)
                 response_data = {'status': 'success', 'message': 'user added in collection'}
