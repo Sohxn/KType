@@ -12,4 +12,4 @@ A touch-typing practice website - with additional resources.
 
 
 ```bash
-  npm install axios firebase framer-motion mongodb react-dom react-router-dom tailwindcss
+  npm install axios firebase framer-motion mongodb react-dom react-router-dom tailwindcss recharts
