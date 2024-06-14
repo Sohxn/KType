@@ -15,6 +15,22 @@ const Nav = () => {
   //user state var can be used to access the logged in users attributes 
   const navigate = useNavigate();
 
+  //for the title 
+  const [name, setName] = useState('')
+  //for fetching
+  const usermail = user? user.email : ''
+
+  //fetching username
+  // const fetchname = (usr) => {
+  //   axios.get(`http://127.0.0.1:8080/api/name/${usr}`)
+  //     .then((response) => {
+  //       setName(response.data['username'])
+  //     })
+  //     .catch((error) => {
+  //       console.error("ERROR",error);
+  //     });
+  // };
+
   const handleLogout = async () => {
     await signOut(auth); // Sign out the user
     navigate('/login'); // Redirect to login page
@@ -28,6 +44,7 @@ const Nav = () => {
 
   //escape to close sidebar
   useEffect(() => {
+    
     const HandleKeyDown = (event) => {
       if(sbopen && event.key === 'Escape'){
         sbtoggle() 
@@ -36,16 +53,25 @@ const Nav = () => {
 
   document.addEventListener('keydown' , HandleKeyDown)
 
+
   return () => {
     document.removeEventListener('keydown' , HandleKeyDown)
     }
   },
-  [sbopen, sbtoggle])
+  [sbopen, sbtoggle, usermail])
+
+//   useEffect(() =>{
+//     if(user){
+//       fetchname(usermail)
+//     }
+//   },
+//  [usermail])
+  
   
   return (
     <div  className='fixed flex h-[12vh] w-screen justify-center'>
-        <div className='mt-6 rounded-lg w-[90vw] flex'>
-          <h className='font-roboto text-[3.5vh] text-white hover:cursor-pointer'>TypeRabbit. </h>
+        <div className='mt-6 rounded-lg w-[90vw] flex mr-auto ml-10'>
+          <h className='flex font-roboto text-[3.5vh] text-white hover:cursor-pointer'>TypeRabbit.</h>
         </div>
 
         <div id='buttontoopensidebar' className='text-white font-roboto fixed flex cursor-pointer right-10 top-10'>

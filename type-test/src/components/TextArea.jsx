@@ -10,6 +10,10 @@ import { useAuth } from './auth/AuthContext';
 
 //will not get refreshed every time hence global
 const incorr = []
+//for graph report
+export const speed_array = []
+export const acc_array = []
+//metrics
 export let wpm = 0;
 export let curr_accur = 0;
 
@@ -20,6 +24,7 @@ const TextArea = () => {
   const [intervalId, setIntervalId] = useState(null);
   const [wordCount, setWordCount] = useState(0);
   const [keyboard, showKeyboard] = useState(false)
+  const [isLast, setLast] = useState(false)
 
   //auth
   const {user} = useAuth()
@@ -33,20 +38,28 @@ const TextArea = () => {
 
 
   const [inp, setinp] = useState('')
+  const startTimeRef = useRef(0)
 
   const trigger_timer = (val) =>{
     if(!inp && val.length > 0){
       console.log("The first letter has been typed. START TIMER.")
       setSeconds(1);
+      startTimeRef.current = performance.now()
     }
 
     setinp(val)
   }
+
   useEffect(() => {
     // Check if inp is not empty and seconds is greater than 0 before starting the interval
-    if (inp && seconds > 0) {
+    if (inp && seconds > 0 && !isLast) {
       const id = setInterval(() => {
         setSeconds((prevSeconds) => prevSeconds + 1);
+        const el_time = (performance.now() - startTimeRef.current) / 1000 
+        const speed = Math.ceil(( wordCount / el_time) * 60)
+        console.log("time:", seconds, "speed:", speed)
+        speed_array.push(speed)
+        console.log(speed_array)
       }, 1000);
 
       // Save the interval ID to state
@@ -55,14 +68,13 @@ const TextArea = () => {
       // Cleanup the interval when the component unmounts
       return () => clearInterval(id);
     }
-  }, [inp, seconds]); 
-  const stopTimer = () => {
-    // Clear the interval to stop the timer
-    clearInterval(intervalId);
-  };
+  }, [inp, seconds, isLast]); 
+
+  
+
   //added word_count endpoint in server address
-  const fetchData = (total_words) => {
-    axios.get(`http://127.0.0.1:8080/api/data/${total_words}`)
+  const fetchData = (total_words, diff) => {
+    axios.get(`http://127.0.0.1:8080/api/data/${total_words}/${diff}`)
       .then((response) => {
         setData(response.data);
         // setCounter(response.data.length); // Set counter based on the length of the fetched data
@@ -77,7 +89,7 @@ const TextArea = () => {
   };
 
   // Fetch data when the component mounts
-  useEffect(() => {fetchData(10);}, []);
+  useEffect(() => {fetchData(10, 5);}, []);
 
  const [input , setInput] = useState('') //im using this for the timer as well
  const [activeIndex , setIndex] = useState(0)
@@ -138,15 +150,12 @@ function proc_input(value) {
       }
       
       console.log("You've reached the last word!");
+      setLast(true)
       
-      //time calculation here
+      //time calculation here 
 
       const endTime = performance.now();
-      console.log("len",data.length);
-      console.log("len-1", data.length-1)
-      console.log(startTime)
-      console.log(endTime)
-      console.log("wordcount: ",wordCount)
+      console.log("wordcount in proc func: ",wordCount)
       const elapsedTime = (endTime - startTime) / 1000; // Convert milliseconds to seconds
 
       // Corrected WPM calculation: divide words by elapsed time and multiply by 60
@@ -155,8 +164,6 @@ function proc_input(value) {
       console.log("typing speed: ", wpm)
 
       curr_accur = (counter * 100) / data.length;
-
-
 
       //HTTP POST request to send speed data
       const update_speed = async () => {
@@ -172,8 +179,6 @@ function proc_input(value) {
           console.error('Error during request:', error)
         })
       }
-
-
 
       //HTTP POST request to send accuracy data
       const update_accuracy = async () => {
@@ -219,8 +224,6 @@ function proc_input(value) {
   }
 }
 
-
-
 //color formatting of words according to word typed
 //bug to be fixed
 function getWordClass(index) {
@@ -240,9 +243,6 @@ function getWordClass(index) {
   }
 }
 
-
-
-  
 //front end
   return (
 <>
@@ -250,12 +250,10 @@ function getWordClass(index) {
   <div className='h-[200vh] w-screen'>
   <div className='h-[85vh] w-screen'>
     <div className='flex h-[6vh] w-screen mt-[10vh] justify-center'>
-      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(10)}>10</button>
-      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(50)}>50</button>
-      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(100)}>100</button>
-      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(150)}>150</button>
-      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(200)}>200</button>
-    </div>
+      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(10, 5)}>10</button>
+      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(50, 5)}>50</button>
+      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(100, 5)}>100</button>
+      <button className='font-roboto text-white hover:text-orange text-xl p-2 hover:text-2xl ease-in-out duration-300' onClick={() => fetchData(150, 5)}>150</button>    </div>
     <div className='flex w-screen grid grid-rows-5 h-fit'>
         <div className=' 
         p-5 min-h-[5vh] max-h-[70vh] min-w-[40vw] mx-auto max-w-[45vw] bg-[#c084fc] rounded-xl w-fit self-center text-white font-roboto text-[20px]
@@ -264,7 +262,7 @@ function getWordClass(index) {
           <div className='flex grid grid-rows-2'>
           
             {/* main content */}
-            <div className='grid-item p-2'>
+            <div className='grid-item p-2 text-center'>
               {data.map((word, index) => (
                 <span key={index}>
                   {index > 0 && ' '} {/* Add a space between words */}
@@ -278,12 +276,12 @@ function getWordClass(index) {
           <div className='grid-item h-fit p-2 mt-5'>
               {/*typing box*/}
             <div className='flex justify-center'>
-              <div className='flex w-fit h-fit rounded-xl border-none outline-none self-center text-white font-roboto text-xl'>
+              <div className='flex w-fit h-fit rounded-xl self-center text-white font-roboto text-xl'>
                 <input autoFocus type="text" 
                         value={input} 
                         onChange={(e) => {proc_input(e.target.value)
                                           trigger_timer(e.target.value)}} 
-                        className='text-white p-2 bg-[#c084fc] self-center rounded-xl'/>
+                        className='text-black border-none p-2 bg-[#c084fc] self-center bg-white rounded-xl'/>
               </div>
             </div>
           </div>

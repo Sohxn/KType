@@ -58,10 +58,11 @@ const ResultOverlay = (children) => {
     <div className='fixed backdrop-blur-2xl 
     font-roboto top-0 left-0 w-full h-full z-20 
     duration-500 ease-in-out'>
-        <span className='flex text-white p-5'>press &nbsp; <span className='border-2 rounded-lg text-center'>&nbsp; ctrl + R &nbsp;</span> &nbsp;to type again</span>
-        <div className='grid grid-cols-3 text-center mt-20 text-2xl text-white'>
-            <div className='col-span-1'>speed: {sessioncurrentSpeed}</div>  
-            <div className='col-span-2'>accuracy: {targetSpeed}</div>
+        <span className='flex text-white justify-center p-5'>press&nbsp;<span className='border-2 rounded-lg text-center'>&nbsp; ctrl + R &nbsp;</span>&nbsp;to type again</span>
+        <div className='flex p-20 grid grid-cols-2 mt-20 text-2xl text-white
+                        m-5'>
+            <div className='text-left'>speed: {sessioncurrentSpeed}</div>  
+            <div className='text-right'>accuracy: {targetSpeed}</div>
         </div>
     </div>
   )

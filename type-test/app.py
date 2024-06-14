@@ -7,7 +7,7 @@ from flask_pymongo import PyMongo
 from datetime import datetime
 # pip install essential-generators (comand to install)
 
-sentence  = DocumentGenerator()
+generator  = DocumentGenerator()
 app = Flask(__name__)
 #adding pymongo
 app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
@@ -19,15 +19,16 @@ profiles = mongo.db.users
 #CORS 
 CORS(app)
 
-@app.route('/api/data/<int:word_count>')
-def get_data(word_count):
-    while(True):
-        raw =  sentence.paragraph()
+@app.route('/api/data/<int:word_count>/<int:diff>')
+def get_data(word_count, diff):
+    while(True): 
+        raw =  generator.paragraph()
         raw = raw.lower()
         raw = re.sub(r"[!\"#\$%&\'\(\)\*\+,-\./:;<=>\?@\[\\\]\^_`{\|}~]" , "" , raw) #removing punctuations
         data = raw.split()
-        if(len(data)>=word_count):
-            return jsonify(data[:word_count])
+        filtered = [word for word in data if len(word)<= diff]
+        if(len(filtered)>=word_count):
+            return jsonify(filtered[:word_count])
         
 
 
@@ -52,14 +53,14 @@ def update_speed():
         sesh = record['sessions']
         temp = (sp + curr_sp)/sesh
         new_avg = math.ceil(temp)
-        #updation
+        #updation of user stats
         profiles.update_one(
             {'email': usremail},
-            {'$set': {'avg_speed': new_avg}}
-        )
-        profiles.update_one(
-            {'email': usremail},
-            {'$inc': {'total_speed': curr_sp}}
+            {
+                '$set': {'avg_speed': new_avg},
+                '$inc': {'total_speed': curr_sp},
+                '$push': {'all_sessions': curr_sp}
+            }
         )
         response_data = {'status':'success', 'message': 'speed updated successfully'}
         return jsonify(data)
@@ -87,10 +88,12 @@ def stats(email):
         if record:
             speed = record['avg_speed']
             acc = record['accuracy']
+            username = record['username']
             print("APP.PY")
             print(speed)
             print(acc)
             return jsonify({
+                'username': username,
                 'speed': speed,
                 'accuracy': acc,
             })
@@ -98,6 +101,23 @@ def stats(email):
             return jsonify({'status': 'error', 'message': 'User does not exist'})
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)})
+
+@app.route('/api/name/<email>')
+def name(email):
+    try:
+        record = profiles.find_one(
+            {'email': email},
+        )
+        if record:
+            username = record['username']
+            return jsonify({
+                'username': username
+            })
+        else:
+            return jsonify({'status': 'error', 'message': 'User does not exist'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
+
 
 #creation of a new record in the database collection
 @app.route('/api/new_user', methods=['POST'])
@@ -123,7 +143,7 @@ def new_user():
                     "email": useremail,
                     "username": username,
                     "DOJ": datetime.utcnow(),
-                    "sessions": 0, #to be incremented by 1 
+                    "sessions": 0, #to be increented by 1 
                     "lvl": 0,
                     "xp": 0,
                     "avg_speed": 0,
